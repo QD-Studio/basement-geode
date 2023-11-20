@@ -1,0 +1,69 @@
+{
+	"geode": "1.3.5",
+	"version": "v1.5.0",
+	"id": "qd_studio.basementgeode",
+	"name": "BasementGDPS",
+	"developer": "QD Studio",
+	"description": "BasementGDPS geode port!",
+	"early-load": true,
+
+	"settings": {
+		"http-encryption":{
+			"name": "HTTP encryption",
+			"description": "Replaces http to https in urls",
+			"type": "bool",
+			"default": true
+		},
+		"basementResources":{
+			"name": "Enable Basement resources",
+			"description": "Enable BasementGDPS texturepack",
+			"type": "bool",
+			"default": true
+		},
+		"afk-time": {
+			"name": "AFK time",
+			"description": "The time when AFK mode will turn on (in seconds)",
+			"type": "int",
+			"control": {
+				"input": true,
+				"slider": false,
+				"arrows": false
+			},
+			"default": 300,
+			"min": 5,
+			"max": 360000
+		},
+		"no-smoke": {
+			"description": "Disable smoke particles",
+			"name": "No smoke",
+			"type": "bool",
+			"default": false
+		}
+	},
+
+	"dependencies": [
+        {
+            "id": "geode.custom-keybinds",
+            "version": "v1.1.0",
+            "required": true
+        }
+    ],
+
+	"resources": {
+		"sprites": [
+			"resources/sprites/*.png"
+		],
+		"files": [
+			"resources/dicts/*.plist",
+			"resources/soundtracks/*.mp3"
+		],
+		"spritesheets": {
+			"BasementOverrides": [
+				"resources/spritesheets/BasementOverrides/*.png"
+			],
+			"BasementTextures": [
+				"resources/spritesheets/BasementTextures/*.png"
+			]
+		}
+	}
+}
