@@ -2,6 +2,7 @@
 // #include <Geode/modify/CCHttpRequest.hpp>
 #include <Geode/modify/GManager.hpp>
 #include <Geode/modify/GJBaseGameLayer.hpp>
+#include <Geode/modify/CCApplication.hpp>
 
 void setUrl_hk(cocos2d::extension::CCHttpRequest* self, char const* url){
     log::info("SETURL");

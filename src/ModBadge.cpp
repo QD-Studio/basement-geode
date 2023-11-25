@@ -41,22 +41,16 @@ class $modify(CommentCell) {
 
 class $modify(ProfilePage) {
     void loadPageFromUserInfo(GJUserScore* score) {
-        if(score->m_modBadge > 2) {
-            auto alert = FLAlertLayer::create("Здесь неначто смотреть...", "Лучше не смотри в этот профиль.", "Понял");
-            alert->show();
-            return;
-        }
-        // log::error("{}", score->m_modBadge);
-        // if(!ModBadge::map.count(score->m_modBadge))
-        //     return ProfilePage::loadPageFromUserInfo(score);
+        if(!ModBadge::map.count(score->m_modBadge))
+            return ProfilePage::loadPageFromUserInfo(score);
 
-        // log::info("patching to {}", ModBadge::map[score->m_modBadge]);
+        log::info("patching to {}", ModBadge::map[score->m_modBadge]);
 
-        // auto str = ModBadge::map[score->m_modBadge].c_str();
+        auto str = ModBadge::map[score->m_modBadge].c_str();
 
-        // Mod::get()->patch((void*)(base::get() + 0x211180), {0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90}); // cmp ...
-        // Mod::get()->patch((void*)(base::get() + 0x211187), {0x90, 0x90, 0x90});                         // cmovnz ...
-        // basementutils::patchString(base::get() + 0x21117C, str);
+        Mod::get()->patch((void*)(base::get() + 0x211180), {0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90}); // cmp ...
+        Mod::get()->patch((void*)(base::get() + 0x211187), {0x90, 0x90, 0x90});                         // cmovnz ...
+        basementutils::patchString(base::get() + 0x21117C, str);
 
         ProfilePage::loadPageFromUserInfo(score);
     }

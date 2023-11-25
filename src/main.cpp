@@ -16,9 +16,8 @@ $execute {
     tm tm_;
     localtime_s(&tm_, &t);
 
-    // isWinter = tm_.tm_mon <= 1 || tm_.tm_mon == 11;
-    isWinter = true;
-
+    isWinter = tm_.tm_mon <= 1 || tm_.tm_mon == 11;
+    
 	initPatches();
 	discordbutton::initPatches();
 

@@ -39,6 +39,9 @@ public:
 };
 
 class $modify(AFKMode, MenuLayer) {
+    bool backupFromExit = false;
+    Notification* backupAccountNotifiation;
+
     bool init() {
         if(!MenuLayer::init()) return false;
 
@@ -75,11 +78,11 @@ class $modify(AFKMode, MenuLayer) {
             
             auto editorbtn = mainmenu->getChildByID("editor-button");
             editorbtn->setAnchorPoint({0.25f, 0.5f});
-            editorbtn->setPosition({300, -4});
+            editorbtn->setPosition({playbtn->getPositionX() + 82, -4});
 
             auto iconkit = mainmenu->getChildByID("icon-kit-button");
             iconkit->setAnchorPoint({0.75f, 0.5f});
-            iconkit->setPosition({128, -4});
+            iconkit->setPosition({playbtn->getPositionX() - 82, -4});
         }
 
         auto creditsSpr = CCSprite::createWithSpriteFrameName("communityCreditsBtn_001.png");

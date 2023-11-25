@@ -38,6 +38,12 @@
 			"name": "No smoke",
 			"type": "bool",
 			"default": false
+		},
+		"auto-backup": {
+			"description": "Auto backup account when exit",
+			"name": "Auto account backup",
+			"type": "bool",
+			"default": true
 		}
 	},
 

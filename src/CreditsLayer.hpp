@@ -28,7 +28,11 @@ class CreditsLayer : public CCLayer {
     virtual void keyBackClicked();
     void backButtonCallback(CCObject*);
 
+    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+
   public:
+    ~CreditsLayer();
     static CreditsLayer* create();
     void switchToCustomLayerButton(CCObject*);
 };

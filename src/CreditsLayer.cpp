@@ -32,9 +32,14 @@ bool CreditsLayer::init() {
     menu->setPosition({25, winSize.height - 25});
     addChild(menu);
 
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 35, true);
+
     setKeypadEnabled(true);
+    setTouchEnabled(true);
+    setMouseEnabled(true);
 
     auto layer = CCLayer::create();
+    layer->setID("credits-layer");
 
     auto logo = CCSprite::createWithSpriteFrameName("GJ_logo_001.png");
     logo->setPosition({winSize.width / 2, winSize.height + 50});
@@ -101,8 +106,14 @@ bool CreditsLayer::init() {
     layer->setScale(0.5f);
     addChild(layer);
 
-    layer->runAction(CCMoveTo::create(30, {layer->getPositionX(), 600}));
-    thankyou->runAction(CCMoveTo::create(30, {winSize.width / 2, winSize.height / 2}));
+    CCAction* a1 = CCMoveTo::create(30, {layer->getPositionX(), 600});
+    a1->setTag(1);
+
+    CCAction* a2 = CCMoveTo::create(30, {winSize.width / 2, winSize.height / 2});
+    a2->setTag(2);
+
+    layer->runAction(a1);
+    thankyou->runAction(a2);
 
     return true;
 }
@@ -123,4 +134,22 @@ void CreditsLayer::switchToCustomLayerButton(CCObject* object) {
     auto transition = CCTransitionFade::create(0.5f, scene);
 
     CCDirector::sharedDirector()->pushScene(transition);
+}
+
+bool CreditsLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
+    CCLayer* layer = (CCLayer*)this->getChildByIDRecursive("credits-layer");
+    layer->getScheduler()->setTimeScale(2.0f);
+    
+    return true;
+}
+
+void CreditsLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {
+    CCLayer* layer = (CCLayer*)this->getChildByIDRecursive("credits-layer");
+    layer->getScheduler()->setTimeScale(1.0f);
+}
+
+CreditsLayer::~CreditsLayer() {
+    CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
+    CCLayer* layer = (CCLayer*)this->getChildByIDRecursive("credits-layer");
+    layer->getScheduler()->setTimeScale(1.0f);
 }

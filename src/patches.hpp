@@ -28,8 +28,10 @@ inline std::vector<PatchBytes> trBG = {
 inline std::vector<PatchString> resPatches = {
     // {0xFDCB, "achievement_01.ogg"},
     // {0x24D38, "achievement_01.ogg"},
+    {0x189FE0, "CantLetGo.mp3"_spr},
     {0x18A09B, "Clubstep.mp3"_spr},
     {0x18A0AC, "Electrodynamix.mp3"_spr},
+    
     {0x2452F, "menuLoop.mp3"_spr},
     {0x24976, "menuLoop.mp3"_spr},
     {0x249A3, "menuLoop.mp3"_spr},
@@ -43,38 +45,6 @@ inline std::vector<PatchString> resPatches = {
     {0x21F988, "menuLoop.mp3"_spr},
     {0x22471A, "menuLoop.mp3"_spr},
     {0x22B307, "menuLoop.mp3"_spr},
-    // {0x5547A, "bigFont.fnt"},
-    // {0xCFDDE, "bigFont.fnt"},
-    // {0x137914, "bigFont.fnt"},
-    // {0x1FCC4F, "bigFont.fnt"},
-
-    // // GameManager::getFontFile
-    // {0xC9821, "bigFont.fnt"},
-
-    // // EditorUI::getCreateBtn
-    // {0x85195, "bigFont.fnt"},
-
-    // // GameObject::updateTextObject
-    // {0xCFDAA, "bigFont.fnt"},
-    // {0xCFDDE, "bigFont.fnt"},
-
-    // // CCCounterLabel::init (магазы)
-    // {0x17692, "bigFont.fnt"},
-
-    // {0x55482, "gjFont%02d.fnt"},
-    // {0xCFDE6, "gjFont%02d.fnt"},
-    // {0x13791C, "gjFont%02d.fnt"},
-    // {0x1FCC57, "gjFont%02d.fnt"},
-
-    // // GameManager::loadFont
-    // {0xC979F, "gjFont%02d.fnt"},
-    // {0xC97CB, "gjFont%02d.fnt"},
-
-    // // GameManager::getFontFile
-    // {0xC982C, "gjFont%02d.fnt"},
-
-    // // GameObject::updateTextObject
-    // {0xCFDE6, "gjFont%02d.fnt"}
 };
 
 void initPatches();
