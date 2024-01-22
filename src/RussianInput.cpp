@@ -7,12 +7,11 @@
 using namespace geode::prelude;
 
 class $modify(CCIMEDispatcher){
-    void dispatchInsertText(const char* text, int len){
+    void dispatchInsertText(const char* text, int len, cocos2d::enumKeyCodes idk){
         auto p1 = basementutils::cp1251_to_utf8(text);
-        // cout << p1 << endl;
 
         if (strlen(p1.c_str()) == 1)
-            return CCIMEDispatcher::dispatchInsertText(p1.c_str(), 1);
+            return CCIMEDispatcher::dispatchInsertText(p1.c_str(), 1, idk);
 
         int cp = p1[1] << 8 | p1[0];
         
@@ -23,13 +22,12 @@ class $modify(CCIMEDispatcher){
             
             auto a = std::string(chars);
 
-            return CCIMEDispatcher::dispatchInsertText(a.c_str(), 2);
+            return CCIMEDispatcher::dispatchInsertText(a.c_str(), 2, idk);
         } else {
-            // cout << "ASASASAS" << endl;
-            return CCIMEDispatcher::dispatchInsertText(p1.c_str(), utf8::internal::sequence_length(p1.begin()));
+            return CCIMEDispatcher::dispatchInsertText(p1.c_str(), utf8::internal::sequence_length(p1.begin()), idk);
         }
 
-        CCIMEDispatcher::dispatchInsertText(p1.c_str(), len);
+        CCIMEDispatcher::dispatchInsertText(p1.c_str(), len, idk);
     }
 };
 

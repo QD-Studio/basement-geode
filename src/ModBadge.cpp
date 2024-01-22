@@ -30,11 +30,11 @@ class $modify(CommentCell) {
         // cout << "patching to " << map[modID].c_str() << endl;
 
         auto str = ModBadge::map[modID].c_str();
-
-        Mod::get()->patch((void*)(base::get() + 0x5FA1A), {0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90}); // cmp ...
-        Mod::get()->patch((void*)(base::get() + 0x5FA21), {0x90, 0x90, 0x90});                         // cmovnz ...
-        basementutils::patchString(base::get() + 0x5FA16, str);
-
+#ifdef GEODE_IS_WINDOWS
+        // Mod::get()->patch((void*)(base::get() + 0x5FA1A), {0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90}); // cmp ...
+        // Mod::get()->patch((void*)(base::get() + 0x5FA21), {0x90, 0x90, 0x90});                         // cmovnz ...
+        // basementutils::patchString(base::get() + 0x5FA16, str);
+#endif
         CommentCell::loadFromComment(com);
     }
 };
@@ -48,9 +48,11 @@ class $modify(ProfilePage) {
 
         auto str = ModBadge::map[score->m_modBadge].c_str();
 
-        Mod::get()->patch((void*)(base::get() + 0x211180), {0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90}); // cmp ...
-        Mod::get()->patch((void*)(base::get() + 0x211187), {0x90, 0x90, 0x90});                         // cmovnz ...
-        basementutils::patchString(base::get() + 0x21117C, str);
+#ifdef GEODE_IS_WINDOWS
+        // Mod::get()->patch((void*)(base::get() + 0x211180), {0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90}); // cmp ...
+        // Mod::get()->patch((void*)(base::get() + 0x211187), {0x90, 0x90, 0x90});                         // cmovnz ...
+        // basementutils::patchString(base::get() + 0x21117C, str);
+#endif
 
         ProfilePage::loadPageFromUserInfo(score);
     }

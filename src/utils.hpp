@@ -11,31 +11,23 @@ struct Version {
     uint16_t revision;
 };
 
-const std::string basementURL = "https://www.podvalgdsherov.fun/pgcore/";
-const Version ver = {1, 5, 0};
+const std::string basementURL = "www.podvalgdsherov.fun";
+const Version ver = {1, 6, 0};
 inline bool isWinter = false;
 
 namespace basementutils {
+#ifdef GEODE_IS_WINDOWS
     void patchString(uintptr_t const absoluteAddr, char const* str);
-    std::string getVersion();
-    std::string getQualityString(std::string filename);
-    std::string getPrefixQuality(TextureQuality quality);
-    bool checkAllQualities(ghc::filesystem::path path);
-    const char* getNodeName(CCNode* node);
-    std::vector<std::string_view> splitByDelimStringView(std::string_view str, char delim);
-    int _stoi(const std::string_view s);
-    bool isNumber(const std::string& s);
-    bool isFloat(const std::string& str);
-    uint32_t GetPointerAddress(std::vector<uint32_t> offsets, const uintptr_t absoluteAddr);
-    uint32_t GetPointerAddress(std::vector<uint32_t> offsets, std::string lib);
-    uint32_t GetPointerAddress(std::vector<uint32_t> offsets);
-    ccColor3B ConvertHSBtoRGB(float h, float s, float v);
-    ccColor3B InvertRGBColor(ccColor3B color);
-    ccColor3B FadeToColor(ccColor3B source, ccColor3B target, float t);
-    std::vector<std::string> splitString(const std::string& str, char separator);
-
     std::string cp1251_to_utf8(const char *str);
+#elif defined(GEODE_IS_ANDROID)
+    void patchString(uintptr_t const dcd, uintptr_t const add, char const* str);
+#endif
+
+    const std::string getVersion();
+    const std::string getQualityString(std::string filename);
     void getUnicodeChar(unsigned int code, char chars[5]);
 
     void reloadAll();
+
+    std::string const getServerURL(bool prefix);
 };

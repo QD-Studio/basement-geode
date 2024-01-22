@@ -1,34 +1,9 @@
 #include "utils.hpp"
 
-void basementutils::patchString(uintptr_t const absoluteAddr, char const* str){
-    Mod::get()->patch((void*)(absoluteAddr), ByteVector((uint8_t*)&str, (uint8_t*)&str + 4));
-}
+#if defined(GEODE_IS_WINDOWS)
 
-std::string basementutils::getVersion() {
-    return fmt::format("{}.{}.{}", ver.major, ver.minor, ver.revision);
-}
-
-std::string basementutils::getQualityString(std::string filename) {
-    if(filename.find("-uhd") != std::string::npos) filename.erase(filename.find("-uhd"), 4);
-    if(filename.find("-hd") != std::string::npos) filename.erase(filename.find("-hd"), 3);
-
-    std::string extension = ghc::filesystem::path(filename).extension().string();
-    auto quality = CCDirector::get()->getLoadedTextureQuality();
-
-    switch (quality){
-        case TextureQuality::kTextureQualityLow:
-            break;
-
-        case TextureQuality::kTextureQualityMedium:
-            filename.replace(filename.find(extension), std::string("-hd" + extension).length(), "-hd" + extension);
-            break;
-
-        case TextureQuality::kTextureQualityHigh:
-            filename.replace(filename.find(extension), std::string("-uhd" + extension).length(), "-uhd" + extension);
-            break;  
-    }
-
-    return filename;
+void basementutils::patchString(uintptr_t const absAddress, char const* str) {
+    Mod::get()->patch((void*)absAddress, ByteVector {(uint8_t*)&str, (uint8_t*)&str + 4});
 }
 
 std::string basementutils::cp1251_to_utf8(const char *str){
@@ -55,6 +30,42 @@ std::string basementutils::cp1251_to_utf8(const char *str){
     res.append(cres);
     delete[] cres;
     return res;
+}
+
+#elif defined(GEODE_IS_ANDROID)
+
+void basementutils::patchString(uintptr_t const dcd, uintptr_t const add, char const* str) {
+    Mod::get()->patch((void*)(base::get() + dcd), ByteVector {(uint8_t*)&str, (uint8_t*)&str + 4});
+    Mod::get()->patch((void*)(base::get() + add), ByteVector {0x00, 0xBF});
+}
+
+#endif
+
+const std::string basementutils::getVersion() {
+    return fmt::format("{}.{}.{}", ver.major, ver.minor, ver.revision);
+}
+
+const std::string basementutils::getQualityString(std::string filename) {
+    if(filename.find("-uhd") != std::string::npos) filename.erase(filename.find("-uhd"), 4);
+    if(filename.find("-hd") != std::string::npos) filename.erase(filename.find("-hd"), 3);
+
+    std::string extension = ghc::filesystem::path(filename).extension().string();
+    auto quality = CCDirector::get()->getLoadedTextureQuality();
+
+    switch (quality){
+        case TextureQuality::kTextureQualityLow:
+            break;
+
+        case TextureQuality::kTextureQualityMedium:
+            filename.replace(filename.find(extension), std::string("-hd" + extension).length(), "-hd" + extension);
+            break;
+
+        case TextureQuality::kTextureQualityHigh:
+            filename.replace(filename.find(extension), std::string("-uhd" + extension).length(), "-uhd" + extension);
+            break;  
+    }
+
+    return filename;
 }
 
 void basementutils::getUnicodeChar(unsigned int code, char chars[5]) {
@@ -90,7 +101,16 @@ void basementutils::reloadAll(){
 	CCDirector::sharedDirector()->updateContentScale(CCDirector::get()->getLoadedTextureQuality());
 
 	auto gameManager = GameManager::sharedState();
-	gameManager->setQuality(CCDirector::get()->getLoadedTextureQuality());
+	// gameManager->setQuality(CCDirector::get()->getLoadedTextureQuality());
 	CCTexture2D::setDefaultAlphaPixelFormat(kCCTexture2DPixelFormat_RGBA4444);
 	gameManager->reloadAll(false, false, true);
+}
+
+std::string const basementutils::getServerURL(bool prefix) {
+    auto url = fmt::format("{}://{}/{}", 
+            (Mod::get()->getSettingValue<bool>("http-encryption")) ? "https" : "http", 
+            (Mod::get()->getSettingValue<bool>("test-instance")) ? "localhost" : basementURL,
+            (prefix) ? "pgcore" : "");
+    
+    return url;
 }

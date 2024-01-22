@@ -1,7 +1,8 @@
 {
-	"geode": "1.3.5",
-	"version": "v1.5.0",
-	"id": "qd_studio.basementgeode",
+	"geode": "2.0.0",
+	"version": "v1.6.0",
+	"gd": "2.204",
+	"id": "qdstudio.basementgdps",
 	"name": "BasementGDPS",
 	"developer": "QD Studio",
 	"description": "BasementGDPS geode port!",
@@ -44,16 +45,14 @@
 			"name": "Auto account backup",
 			"type": "bool",
 			"default": true
+		},
+		"test-instance": {
+			"description": "Switches to test instance of server",
+			"name": "Test instance",
+			"type": "bool",
+			"default": false
 		}
 	},
-
-	"dependencies": [
-        {
-            "id": "geode.custom-keybinds",
-            "version": "v1.1.0",
-            "required": true
-        }
-    ],
 
 	"resources": {
 		"sprites": [

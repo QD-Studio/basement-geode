@@ -1,20 +1,12 @@
-#include "DiscordButton.hpp"
+#include <Geode/Geode.hpp>
+#include <Geode/modify/ProfilePage.hpp>
+#include <Geode/modify/GJAccountSettingsLayer.hpp>
+
+#include "utils.hpp"
+
+using namespace geode::prelude;
 
 class $modify(ProfilePage) {
-    // bool init(int p1, bool p2){
-    //     if(!ProdilePage::init(p1, p2)) return false;
-    //
-    //     auto updateSpr = CCSprite::createWithSpriteFrameName("GJ_updateBtn_001.png"); // for test
-    //     DiscordButton::accountID = self->m_nAccountID;
-    //     DiscordButton::page = self;
-    //     auto updateBtn = gd::CCMenuItemSpriteExtra::create(updateSpr, self, SEL_MenuHandler(&Utils::loadPage));
-    //     auto menu = CCMenu::create();
-    //     menu->addChild(updateBtn);
-    //     self->addChild(menu);
-    //
-    //     return true;
-    // }
-
     void onTwitter(CCObject* pObj) {
         CCApplication::sharedApplication()->openURL(std::string("https://discordapp.com/users/").assign(this->m_score->m_twitterURL).c_str());
     }
@@ -50,8 +42,14 @@ class $modify(GJAccountSettingsLayer) {
     }
 };
 
-void discordbutton::initPatches() {
-    basementutils::patchString(base::get() + 0x13BDBD, "discordapp.com/users/...");
-    basementutils::patchString(base::get() + 0x210ABF, "gj_discordIcon_001.png");
-    basementutils::patchString(base::get() + 0x210DB3, "GJ_discordTxt_001.png");
-}
+// $execute {
+// #ifdef GEODE_IS_WINDOWS
+//     basementutils::patchString(base::get() + 0x13BDBD, "discordapp.com/users/...");
+//     basementutils::patchString(base::get() + 0x210ABF, "gj_discordIcon_001.png");
+//     basementutils::patchString(base::get() + 0x210DB3, "GJ_discordTxt_001.png");
+// #elif defined(GEODE_IS_ANDROID)
+//     basementutils::patchString(0x340380, 0x3402F4, "discordapp.com/users/...");
+//     basementutils::patchString(0x355FCC, 0x355DC0, "gj_discordIcon_001.png");
+//     basementutils::patchString(0x355FEC, 0x355FB8, "GJ_discordTxt_001.png");
+// #endif
+// }

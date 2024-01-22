@@ -1,7 +1,9 @@
 #include "CreditsLayer.hpp"
 #include <Geode/modify/MenuLayer.hpp>
 #include <Geode/modify/MenuGameLayer.hpp>
-#include <geode.custom-keybinds/include/Keybinds.hpp>
+// #ifdef GEODE_IS_WINDOWS
+// #include <geode.custom-keybinds/include/Keybinds.hpp>
+// #endif
 
 struct MenuButtons {
     CCPoint point;
@@ -11,32 +13,6 @@ struct MenuButtons {
 bool afkmode = false;
 bool shouldPlayAnimation = true;
 uint32_t iconsDestroyed = 0;
-
-// specify parameters for the setup function in the Popup<...> template
-class MyPopup : public geode::Popup<> {
-protected:
-    bool setup() override {
-        auto winSize = CCDirector::sharedDirector()->getWinSize();
-
-        // convenience function provided by Popup 
-        // for adding/setting a title to the popup
-        this->setTitle("Hi mom!");
-
-
-        return true;
-    }
-
-public:
-    static MyPopup* create() {
-        auto ret = new MyPopup();
-        if (ret && ret->init(240.f, 160.f)) {
-            ret->autorelease();
-            return ret;
-        }
-        CC_SAFE_DELETE(ret);
-        return nullptr;
-    }
-};
 
 class $modify(AFKMode, MenuLayer) {
     bool backupFromExit = false;
@@ -68,7 +44,7 @@ class $modify(AFKMode, MenuLayer) {
             sprite->setPositionY(winSize.height / 2 + 45);
 
             ground->setZOrder(-2);
-            gameLayer->addChild(sprite, 10);
+            gameLayer->addChild(sprite, 100);
             sprite->setID("basement-bg");
         }
 
@@ -116,24 +92,24 @@ class $modify(AFKMode, MenuLayer) {
             CCLayer* snowlayer = CCLayer::create();
             snowlayer->setID("basement-snow-layer");
 
-            auto snow1 = CCSprite::createWithSpriteFrameName("snow_01.png");
+            auto snow1 = CCSprite::createWithSpriteFrameName("snow_01.png"_spr);
             snow1->setPosition({ 508, 11 });
             snow1->setScale(0.175);
 
-            auto snow2 = CCSprite::createWithSpriteFrameName("snow_01.png");
+            auto snow2 = CCSprite::createWithSpriteFrameName("snow_01.png"_spr);
             snow2->setPosition({ 236, 0 });
             snow2->setScale(0.350);
 
-            auto snow3 = CCSprite::createWithSpriteFrameName("snow_01.png");
+            auto snow3 = CCSprite::createWithSpriteFrameName("snow_01.png"_spr);
             snow3->setPosition({ 80, 0 });
             snow3->setScale(0.350);
 
-            auto snow4 = CCSprite::createWithSpriteFrameName("snow_01.png");
+            auto snow4 = CCSprite::createWithSpriteFrameName("snow_01.png"_spr);
             snow4->setPosition({ 388, 3 });
             snow4->setScale(0.300);
             snow4->setZOrder(1);
 
-            auto snoww1 = CCSprite::createWithSpriteFrameName("snow_02.png");
+            auto snoww1 = CCSprite::createWithSpriteFrameName("snow_02.png"_spr);
             snoww1->setPosition({325, 0});
             snoww1->setAnchorPoint({ 0.5, 0 });
             snoww1->setScale(0.175);
@@ -149,12 +125,13 @@ class $modify(AFKMode, MenuLayer) {
 
         this->scheduleOnce(SEL_SCHEDULE(&AFKMode::enterAFKMode), Mod::get()->getSettingValue<int64_t>("afk-time"));
 
-        this->template addEventListener<keybinds::InvokeBindFilter>([=](keybinds::InvokeBindEvent* event) {
-            if (afkmode && event->isDown()) AFKMode::exitAFKMode(this); 
+// #ifdef GEODE_IS_WINDOWS
+//         this->template addEventListener<keybinds::InvokeBindFilter>([=](keybinds::InvokeBindEvent* event) {
+//             if (afkmode && event->isDown()) AFKMode::exitAFKMode(this); 
             
-            return ListenerResult::Propagate;
-        }, "exitAFKmode"_spr);
-        
+//             return ListenerResult::Propagate;
+//         }, "exitAFKmode"_spr);
+// #endif
         return true;
     }
 
@@ -191,23 +168,25 @@ class $modify(AFKMode, MenuLayer) {
         gdlver->runAction(CCFadeTo::create(1, 0));
         name->runAction(CCFadeTo::create(1, 0));
 
+// #ifdef GEODE_IS_WINDOWS
+//         auto binds = keybinds::BindManager::get()->getBindsFor("exitAFKmode"_spr);        
+//         std::string keys = binds[0]->toString();
 
-        auto binds = keybinds::BindManager::get()->getBindsFor("exitAFKmode"_spr);        
-        std::string keys = binds[0]->toString();
-
-        if(binds.size() > 1){
-            for(auto& bind : binds){
-                keys.assign(" + " + bind->toString());
-            }
-        }
+//         if(binds.size() > 1){
+//             for(auto& bind : binds){
+//                 keys.assign(" + " + bind->toString());
+//             }
+//         }
         
+//         auto exitText = CCLabelBMFont::create(std::string("(" + keys + ") чтобы выйти из AFK режима").c_str(), "bigFont.fnt");
+//         exitText->setPosition({winSize.width - (exitText->getContentSize().width / 4) - 10, 10});
+//         exitText->setOpacity(0);
+//         exitText->setScale(0.5);
+//         exitText->setID("exit-hint");
+//         this->addChild(exitText);
 
-        auto exitText = CCLabelBMFont::create(std::string("(" + keys + ") чтобы выйти из AFK режима").c_str(), "bigFont.fnt");
-        exitText->setPosition({winSize.width - (exitText->getContentSize().width / 4) - 10, 10});
-        exitText->setOpacity(0);
-        exitText->setScale(0.5);
-        exitText->setID("exit-hint");
-        this->addChild(exitText);
+//         exitText->runAction(CCFadeTo::create(.5, 128));
+// #endif
 
         auto iconsCounter = CCLabelBMFont::create("Иконок уничтожено: 0", "bigFont.fnt");
         iconsCounter->setPosition({winSize.width / 2, winSize.height - 30});
@@ -220,7 +199,6 @@ class $modify(AFKMode, MenuLayer) {
         iconsCounter->runAction(CCSequence::createWithTwoActions(CCDelayTime::create(1), CCFadeTo::create(1, 255)));
         buttonsMenu->runAction(CCFadeTo::create(1, 0));
         menu->runAction(CCFadeTo::create(1, 0));
-        exitText->runAction(CCFadeTo::create(.5, 128));
 
         menu->setEnabled(false);
         mainMenu->setEnabled(false);
@@ -252,7 +230,9 @@ class $modify(AFKMode, MenuLayer) {
         auto menu = (CCMenu*)this->getChildByID("top-right-menu");
         auto name = (CCNode*)this->getChildByID("player-username");
         auto gameLayer = (CCNode*)this->getChildByID("main-menu-bg");
+#ifdef GEODE_IS_WINDOWS
         auto exitText = (CCLabelBMFont*)this->getChildByID("exit-hint");
+#endif
         auto iconsCounter = (CCLabelBMFont*)this->getChildByID("icons-counter");
 
         if(iconsCounter->numberOfRunningActions() != 0)
@@ -269,13 +249,15 @@ class $modify(AFKMode, MenuLayer) {
             tempBG->setPositionX(winSize.width / 2);
             tempBG->setPositionY(winSize.height / 2 + 45);
             tempBG->setOpacity(0);
-            gameLayer->addChild(tempBG, 10);
+            gameLayer->addChild(tempBG, 100);
             tempBG->setID("temp-bg");
             tempBG->runAction(CCSequence::create(CCFadeTo::create(1, 255), CCCallFunc::create(this, SEL_CallFunc(&AFKMode::finishAFKModeClosing)),
                                                  CCRemoveSelf::create(), NULL));
         } // Пришлось сделать так потому что кубикам и их частицам нельзя задать прозрачность
 
+#ifdef GEODE_IS_WINDOWS
         exitText->runAction(CCSequence::createWithTwoActions(CCFadeTo::create(.5, 0), CCRemoveSelf::create()));
+#endif
         iconsCounter->runAction(CCSequence::createWithTwoActions(CCFadeTo::create(.5, 0), CCRemoveSelf::create()));
 
         title->runAction(CCFadeTo::create(1, 255));
