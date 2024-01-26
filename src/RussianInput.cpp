@@ -7,7 +7,8 @@
 using namespace geode::prelude;
 
 class $modify(CCIMEDispatcher){
-    void dispatchInsertText(const char* text, int len, cocos2d::enumKeyCodes idk){
+    void dispatchInsertText(const char* text, int len, cocos2d::enumKeyCodes idk) {
+        log::info("lol what {}", (int)idk);
         auto p1 = basementutils::cp1251_to_utf8(text);
 
         if (strlen(p1.c_str()) == 1)

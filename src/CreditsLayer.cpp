@@ -45,7 +45,7 @@ bool CreditsLayer::init() {
     logo->setPosition({winSize.width / 2, winSize.height + 50});
     layer->addChild(logo);
 
-    auto textOriginalDev = CCLabelBMFont::create("Разработчик оригинальной игры:", "bigFont.fnt");
+    auto textOriginalDev = CCLabelBMFont::create("Geometry Dash developer:", "bigFont.fnt");
     textOriginalDev->setPosition({winSize.width / 2, logo->getPositionY() - 80});
     layer->addChild(textOriginalDev);
 
@@ -53,11 +53,11 @@ bool CreditsLayer::init() {
     robtopLogo->setPosition({winSize.width / 2, textOriginalDev->getPositionY() - 35});
     layer->addChild(robtopLogo);
 
-    auto textBasementDevs = CCLabelBMFont::create("Команда Подвала ГДшеров:", "bigFont.fnt");
+    auto textBasementDevs = CCLabelBMFont::create("BasementGDPS team:", "bigFont.fnt");
     textBasementDevs->setPosition({winSize.width / 2, robtopLogo->getPositionY() - 60});
     layer->addChild(textBasementDevs);
 
-    auto qdstudioLogo = CCSprite::createWithSpriteFrameName("qdstudio.png");
+    auto qdstudioLogo = CCSprite::createWithSpriteFrameName("qdstudio.png"_spr);
     qdstudioLogo->setPosition({winSize.width / 2, textBasementDevs->getPositionY() - 40});
     layer->addChild(qdstudioLogo);
 
@@ -85,7 +85,7 @@ bool CreditsLayer::init() {
 
     }
 
-    auto textRemixCredits = CCLabelBMFont::create("Авторы ремиксов", "bigFont.fnt");
+    auto textRemixCredits = CCLabelBMFont::create("Authors of the song remixes:", "bigFont.fnt");
     textRemixCredits->setPosition({winSize.width / 2, qdstudioLogo->getPositionY() - 60 - (50 * this->devs.size()) - 60});
     layer->addChild(textRemixCredits);
 
@@ -96,7 +96,7 @@ bool CreditsLayer::init() {
     }
 
     auto thankyou = CCLabelBMFont::create(
-        "Отдельное спасибо ТЕБЕ за то, что играешь\n на нашем уютном приватном сервере, мы очень ценим это =)", "bigFont.fnt");
+        "Special thanks to YOU for playing on\n our private server, we really appreciate it =)", "bigFont.fnt");
     thankyou->setPosition({winSize.width / 2, qdstudioLogo->getPositionY() - 60 - (50 * this->devs.size()) - (winSize.width / 2)});
     thankyou->setScale(0.4f);
     thankyou->setAlignment(CCTextAlignment::kCCTextAlignmentCenter);

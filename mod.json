@@ -56,16 +56,15 @@
 
 	"resources": {
 		"sprites": [
-			"resources/sprites/*.png"
+			"resources/sprites/*.png",
+			"resources/spritesheets/BasementOverrides.png"
 		],
 		"files": [
 			"resources/dicts/*.plist",
-			"resources/soundtracks/*.mp3"
+			"resources/soundtracks/*.mp3",
+			"resources/spritesheets/BasementOverrides-uhd.plist"
 		],
 		"spritesheets": {
-			"BasementOverrides": [
-				"resources/spritesheets/BasementOverrides/*.png"
-			],
 			"BasementTextures": [
 				"resources/spritesheets/BasementTextures/*.png"
 			]

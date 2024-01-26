@@ -1,5 +1,4 @@
 #include "patches.hpp"
-#include <Geode/modify/CCHttpRequest.hpp>
 #include <Geode/modify/GManager.hpp>
 #include <Geode/modify/GJBaseGameLayer.hpp>
 #include <Geode/modify/CCApplication.hpp>
