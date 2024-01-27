@@ -269,13 +269,13 @@ class $modify(AFKMode, MenuLayer) {
         }
     }
 
-    void onQuit(CCObject* sender) {
-        if(afkmode) {
-            return exitAFKMode(sender);
-        }
+    // void onQuit(CCObject* sender) {
+    //     if(afkmode) {
+    //         return exitAFKMode(sender);
+    //     }
 
-        return MenuLayer::onQuit(sender);
-    }
+    //     return MenuLayer::onQuit(sender);
+    // }
 };
 
 class $modify(MenuGameLayer) {

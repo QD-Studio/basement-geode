@@ -13,6 +13,8 @@ using namespace geode::prelude;
 // #endif
 
 $execute {
+    SetConsoleOutputCP(65001); // utf8
+    
 	log::info("BasementGDPS loading!");
 
     auto t = std::time(0);

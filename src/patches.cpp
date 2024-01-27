@@ -45,20 +45,20 @@ $execute {
 #endif
 }
 
-class $modify(GManager){
-    void setup(){
-        std::string basementFilename(this->m_fileName);
-        basementFilename.replace(0, 2, "BS"); // Brawl Stars
+// class $modify(GManager){
+//     void setup(){
+//         std::string basementFilename(this->m_fileName);
+//         basementFilename.replace(0, 2, "BS"); // Brawl Stars
         
-        if(Mod::get()->getSettingValue<bool>("test-instance")) {
-            basementFilename.replace(0, 6, "BSTEST");
-        }
+//         if(Mod::get()->getSettingValue<bool>("test-instance")) {
+//             basementFilename.replace(0, 6, "BSTEST");
+//         }
 
-        this->m_fileName = basementFilename;
+//         this->m_fileName = basementFilename;
 
-        GManager::setup();
-    }
-};
+//         GManager::setup();
+//     }
+// };
 
 // class $modify(GJBaseGameLayer) {
 //     void collectItem(int item, int count) {
