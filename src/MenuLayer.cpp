@@ -1,9 +1,6 @@
 #include "CreditsLayer.hpp"
 #include <Geode/modify/MenuLayer.hpp>
 #include <Geode/modify/MenuGameLayer.hpp>
-// #ifdef GEODE_IS_WINDOWS
-// #include <geode.custom-keybinds/include/Keybinds.hpp>
-// #endif
 
 bool afkmode = false;
 uint32_t iconsDestroyed = 0;
@@ -11,54 +8,38 @@ uint32_t iconsDestroyed = 0;
 class $modify(AFKMode, MenuLayer) {
     bool shouldPlayAnimation = true;
 
-    CCSprite* title;
-    CCMenu* mainMenu;
-    CCMenu* bottomMenu;
-    CCMenu* socialMediaMenu;
-    CCMenu* topRightMenu;
-    CCNode* name;
-    CCLabelBMFont* gdlVer;
-    CCNode* gameLayer;
-    CCNode* ground;
-    CCNode* geodeIcon;
-    CCSprite* menuBG;
-    geode::CircleButtonSprite* fuckingGeodeIcon;
-    CCSprite* fuckingGeodeSprite;
+    CCSprite* createBG(const char* spriteFilename) {
+        auto sprite = CCSprite::create(spriteFilename);
+        auto winSize = CCDirector::sharedDirector()->getWinSize();
+
+        if(sprite) {
+            float f = winSize.height / sprite->getContentSize().height;
+            sprite->setScaleY(f);
+            sprite->setScaleX(sprite->getScaleX() * f);
+            sprite->setPositionX(winSize.width / 2);
+            sprite->setPositionY(winSize.height / 2 + 45);
+        }
+
+        return sprite;
+    }
 
     bool init() {
         if(!MenuLayer::init()) return false;
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
-    
-        menuBG = CCSprite::create("menubg.png"_spr);
-        title = (CCSprite*)this->getChildByID("main-title");
-        mainMenu = (CCMenu*)this->getChildByID("main-menu");
-        bottomMenu = (CCMenu*)this->getChildByID("bottom-menu");
-        socialMediaMenu = (CCMenu*)this->getChildByID("social-media-menu");
-        topRightMenu = (CCMenu*)this->getChildByID("top-right-menu");
-        name = (CCNode*)this->getChildByID("player-username");
-        gdlVer = (CCLabelBMFont*)this->getChildByID("gdl-version");
-
-        gameLayer = (CCNode*)this->getChildByID("main-menu-bg");
-        gameLayer->setPositionY(-45);
-
-        ground = (CCNode*)gameLayer->getChildren()->objectAtIndex(1);
-
-        geodeIcon = bottomMenu->getChildByID("geode.loader/geode-button");
-        fuckingGeodeIcon = (geode::CircleButtonSprite*)geodeIcon->getChildren()->objectAtIndex(0);
-        fuckingGeodeSprite = (CCSprite*)fuckingGeodeIcon->getChildren()->objectAtIndex(0);
+        
+        auto mainMenuBg = (CCNode*)this->getChildByID("main-menu-bg");
+        mainMenuBg->setPositionY(-45);
 
         // Создаем бг
-        if(menuBG != nullptr) {
-            float f = winSize.height / menuBG->getContentSize().height;
-            menuBG->setScaleY(f);
-            menuBG->setScaleX(menuBG->getScaleX() * f);
-            menuBG->setPositionX(winSize.width / 2);
-            menuBG->setPositionY(winSize.height / 2 + 45);
-            gameLayer->addChild(menuBG, 100);
+        auto menuBG = createBG("menubg.png"_spr);
 
+        if(menuBG) {
+            mainMenuBg->addChild(menuBG, 100);
             menuBG->setID("basement-bg");
         }
+
+        auto mainMenu = (CCMenu*)this->getChildByID("main-menu");
 
         // Выравниваем кнопки для бг
         if(Mod::get()->getSettingValue<bool>("basementResources")){
@@ -75,12 +56,12 @@ class $modify(AFKMode, MenuLayer) {
         }
 
         // Кнопка кредитсов
-        // auto creditsSpr = CCSprite::createWithSpriteFrameName("communityCreditsBtn_001.png");
-        // creditsSpr->setScale(1.325f);
+        auto creditsSpr = CCSprite::createWithSpriteFrameName("communityCreditsBtn_001.png");
+        creditsSpr->setScale(1.325f);
 
-        // auto creditsBtn = CCMenuItemSpriteExtra::create(creditsSpr, this, menu_selector(CreditsLayer::switchToCustomLayerButton));
-        // creditsBtn->setPosition(mainMenu->convertToNodeSpace({winSize.width - 35, winSize.height - 27}));
-        // mainMenu->addChild(creditsBtn);
+        auto creditsBtn = CCMenuItemSpriteExtra::create(creditsSpr, this, menu_selector(CreditsLayer::switchToCustomLayerButton));
+        creditsBtn->setPosition(mainMenu->convertToNodeSpace({winSize.width - 35, winSize.height - 27}));
+        mainMenu->addChild(creditsBtn);
 
         // Это версия подвала
         CCLabelBMFont* text = CCLabelBMFont::create(fmt::format("BasementGDPS {}-Geode", basementutils::getVersion()).c_str(), "goldFont.fnt");
@@ -100,6 +81,7 @@ class $modify(AFKMode, MenuLayer) {
             snow->setTexture(CCTextureCache::sharedTextureCache()->addImage("snow.png"_spr, false));
             this->addChild(snow);
 
+            auto title = (CCSprite*)this->getChildByID("main-title");
             title->setScale(0.75f);
             title->setPositionY(260);
 
@@ -145,47 +127,37 @@ class $modify(AFKMode, MenuLayer) {
 
     void enterAFKMode(float) {
         afkmode = true;
+
         auto winSize = CCDirector::sharedDirector()->getWinSize();
-        auto basementver = (CCLabelBMFont*)this->getChildByID("basement-version");
-        
-        auto tempBG = CCSprite::create("menubg.png"_spr);
+        auto tempBG = createBG("menubg.png"_spr);
+
         if(tempBG) {
-            float f = winSize.height / tempBG->getContentSize().height;
-            tempBG->setScaleY(f);
-            tempBG->setScaleX(tempBG->getScaleX() * f);
-            tempBG->setPositionX(winSize.width / 2);
-            tempBG->setPositionY(winSize.height / 2 + 45);
-            gameLayer->addChild(tempBG, -4);
+            auto mainMenuBg = (CCNode*)this->getChildByID("main-menu-bg");
+            mainMenuBg->addChild(tempBG, -4);
+            
+            auto groundLayer = (CCNode*)mainMenuBg->getChildren()->lastObject();
+            if(groundLayer)
+                groundLayer->setZOrder(-10);
+            
+            auto menuBG = mainMenuBg->getChildByID("basement-bg");
             menuBG->setZOrder(-1);
             tempBG->setID("temp-bg");
             tempBG->runAction(CCSequence::create(CCDelayTime::create(1), CCFadeTo::create(1, 0), CCRemoveSelf::create(), NULL));
         } // Пришлось сделать так потому что кубикам и их частицам нельзя задать прозрачность
 
+
+        auto title = (CCSprite*)this->getChildByID("main-title");
         title->runAction(CCFadeTo::create(1, 0));
+
+        auto basementver = (CCLabelBMFont*)this->getChildByID("basement-version");
         basementver->runAction(CCFadeTo::create(1, 0));
-        if(gdlVer)
-            gdlVer->runAction(CCFadeTo::create(1, 0));
-        name->runAction(CCFadeTo::create(1, 0));
 
-// #ifdef GEODE_IS_WINDOWS
-//         auto binds = keybinds::BindManager::get()->getBindsFor("exitAFKmode"_spr);        
-//         std::string keys = binds[0]->toString();
+        auto playerUsername = (CCNode*)this->getChildByID("player-username");
+        playerUsername->runAction(CCFadeTo::create(1, 0));
 
-//         if(binds.size() > 1){
-//             for(auto& bind : binds){
-//                 keys.assign(" + " + bind->toString());
-//             }
-//         }
-        
-//         auto exitText = CCLabelBMFont::create(std::string("(" + keys + ") чтобы выйти из AFK режима").c_str(), "bigFont.fnt");
-//         exitText->setPosition({winSize.width - (exitText->getContentSize().width / 4) - 10, 10});
-//         exitText->setOpacity(0);
-//         exitText->setScale(0.5);
-//         exitText->setID("exit-hint");
-//         this->addChild(exitText);
-
-//         exitText->runAction(CCFadeTo::create(.5, 128));
-// #endif
+        auto profileMenu = (CCMenu*)this->getChildByID("profile-menu");
+        profileMenu->runAction(CCFadeTo::create(1, 0));
+        profileMenu->setEnabled(false);
 
         auto iconsCounter = CCLabelBMFont::create(fmt::format("Icons destroyed: {}", iconsDestroyed).c_str(), "bigFont.fnt");
         iconsCounter->setPosition({winSize.width / 2, winSize.height - 30});
@@ -193,17 +165,26 @@ class $modify(AFKMode, MenuLayer) {
         iconsCounter->setScale(0.5);
         iconsCounter->setID("icons-counter");
         this->addChild(iconsCounter);
-
-        mainMenu->runAction(CCFadeTo::create(1, 0));
         iconsCounter->runAction(CCSequence::createWithTwoActions(CCDelayTime::create(1), CCFadeTo::create(1, 255)));
-        bottomMenu->runAction(CCFadeTo::create(1, 0));
-        topRightMenu->runAction(CCFadeTo::create(1, 0));
-        fuckingGeodeSprite->runAction(CCFadeTo::create(1, 0));
 
-        topRightMenu->setEnabled(false);
+        auto mainMenu = (CCMenu*)this->getChildByID("main-menu");
+        mainMenu->runAction(CCFadeTo::create(1, 0));
         mainMenu->setEnabled(false);
+
+        auto bottomMenu = (CCMenu*)this->getChildByID("bottom-menu");
+        bottomMenu->runAction(CCFadeTo::create(1, 0));
         bottomMenu->setEnabled(false);
 
+        auto topRightMenu = (CCMenu*)this->getChildByID("top-right-menu");
+        topRightMenu->runAction(CCFadeTo::create(1, 0));
+        topRightMenu->setEnabled(false);
+
+        auto geodeIcon = bottomMenu->getChildByID("geode.loader/geode-button");
+        auto fuckingGeodeIcon = (geode::CircleButtonSprite*)geodeIcon->getChildren()->objectAtIndex(0);
+        auto fuckingGeodeSprite = (CCSprite*)fuckingGeodeIcon->getChildren()->objectAtIndex(0);
+        fuckingGeodeSprite->runAction(CCFadeTo::create(1, 0));
+
+        auto socialMediaMenu = (CCMenu*)this->getChildByID("social-media-menu");
         for(uint8_t i = 1; i < 6; i++) {
             auto btn = (CCNode*)socialMediaMenu->getChildren()->objectAtIndex(i);
             btn->runAction(CCSequence::createWithTwoActions(CCFadeTo::create(.25, 0), CCToggleVisibility::create()));
@@ -211,19 +192,16 @@ class $modify(AFKMode, MenuLayer) {
     }
 
     void finishAFKModeClosing() {
-        if(gameLayer != nullptr) {
-            auto sprite = (CCSprite*)gameLayer->getChildByID("basement-bg");
-            sprite->setZOrder(10);
+        auto mainMenuBg = (CCNode*)this->getChildByID("main-menu-bg");
+        if(mainMenuBg) {
+            auto basementBg = (CCSprite*)mainMenuBg->getChildByID("basement-bg");
+            basementBg->setZOrder(10);
             this->scheduleOnce(SEL_SCHEDULE(&AFKMode::enterAFKMode), Mod::get()->getSettingValue<int64_t>("afk-time"));
         }
     }
 
     void exitAFKMode(CCObject* sender) {
         auto winSize = CCDirector::sharedDirector()->getWinSize();
-
-#ifdef GEODE_IS_WINDOWS
-        auto exitText = (CCLabelBMFont*)this->getChildByID("exit-hint");
-#endif
         auto iconsCounter = (CCLabelBMFont*)this->getChildByID("icons-counter");
 
         if(iconsCounter->numberOfRunningActions() != 0)
@@ -232,50 +210,63 @@ class $modify(AFKMode, MenuLayer) {
         afkmode = false;
         iconsDestroyed = 0;
 
-        auto tempBG = CCSprite::create("menubg.png"_spr);
+        auto tempBG = createBG("menubg.png"_spr);
         if(tempBG) {
-            float f = winSize.height / tempBG->getContentSize().height;
-            tempBG->setScaleY(f);
-            tempBG->setScaleX(tempBG->getScaleX() * f);
-            tempBG->setPositionX(winSize.width / 2);
-            tempBG->setPositionY(winSize.height / 2 + 45);
-            tempBG->setOpacity(0);
-            gameLayer->addChild(tempBG, 100);
+            auto mainMenuBg = (CCNode*)this->getChildByID("main-menu-bg");
+            mainMenuBg->addChild(tempBG, 100);
+            
             tempBG->setID("temp-bg");
+            tempBG->setOpacity(0);
             tempBG->runAction(CCSequence::create(CCFadeTo::create(1, 255), CCCallFunc::create(this, SEL_CallFunc(&AFKMode::finishAFKModeClosing)),
                                                  CCRemoveSelf::create(), NULL));
         } // Пришлось сделать так потому что кубикам и их частицам нельзя задать прозрачность
 
-#ifdef GEODE_IS_WINDOWS
-        exitText->runAction(CCSequence::createWithTwoActions(CCFadeTo::create(.5, 0), CCRemoveSelf::create()));
-#endif
         iconsCounter->runAction(CCSequence::createWithTwoActions(CCFadeTo::create(.5, 0), CCRemoveSelf::create()));
 
+        auto title = (CCSprite*)this->getChildByID("main-title");
         title->runAction(CCFadeTo::create(1, 255));
-        ((CCLabelBMFont*)this->getChildByID("basement-version"))->runAction(CCFadeTo::create(1, 255));
-        ((CCLabelBMFont*)this->getChildByID("player-username"))->runAction(CCFadeTo::create(1, 255));
+        
+        auto basementVersion = (CCLabelBMFont*)this->getChildByID("basement-version");
+        basementVersion->runAction(CCFadeTo::create(1, 255));
 
+        auto profileMenu = (CCMenu*)this->getChildByID("profile-menu");
+        profileMenu->runAction(CCFadeTo::create(1, 255));
+        profileMenu->setEnabled(true);
+
+        auto playerUsername = (CCLabelBMFont*)this->getChildByID("player-username");
+        playerUsername->runAction(CCFadeTo::create(1, 255));
+
+        auto mainMenu = (CCMenu*)this->getChildByID("main-menu");
         mainMenu->runAction(CCFadeTo::create(1, 255));
-        bottomMenu->runAction(CCFadeTo::create(1, 255));
-        topRightMenu->runAction(CCFadeTo::create(1, 255));
-        fuckingGeodeSprite->runAction(CCFadeTo::create(1, 255));
         mainMenu->setEnabled(true);
-        topRightMenu->setEnabled(true);
+
+        auto bottomMenu = (CCMenu*)this->getChildByID("bottom-menu");
+        bottomMenu->runAction(CCFadeTo::create(1, 255));
         bottomMenu->setEnabled(true);
 
+        auto topRightMenu = (CCMenu*)this->getChildByID("top-right-menu");
+        topRightMenu->runAction(CCFadeTo::create(1, 255));
+        topRightMenu->setEnabled(true);
+
+        auto geodeIcon = bottomMenu->getChildByID("geode.loader/geode-button");
+        auto fuckingGeodeIcon = (geode::CircleButtonSprite*)geodeIcon->getChildren()->objectAtIndex(0);
+        auto fuckingGeodeSprite = (CCSprite*)fuckingGeodeIcon->getChildren()->objectAtIndex(0);
+        fuckingGeodeSprite->runAction(CCFadeTo::create(1, 255));
+
+        auto socialMediaMenu = (CCMenu*)this->getChildByID("social-media-menu");
         for(uint8_t i = 1; i < 6; i++) {
             auto btn = (CCNode*)(socialMediaMenu)->getChildren()->objectAtIndex(i);
             btn->runAction(CCSequence::createWithTwoActions(CCFadeTo::create(.25, 255), CCToggleVisibility::create()));
         }
     }
 
-    // void onQuit(CCObject* sender) {
-    //     if(afkmode) {
-    //         return exitAFKMode(sender);
-    //     }
+    void onQuit(CCObject* sender) {
+        if(afkmode) {
+            return exitAFKMode(sender);
+        }
 
-    //     return MenuLayer::onQuit(sender);
-    // }
+        return MenuLayer::onQuit(sender);
+    }
 };
 
 class $modify(MenuGameLayer) {

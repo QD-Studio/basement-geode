@@ -4,12 +4,11 @@
 #include <Geode/modify/CCApplication.hpp>
 
 void setUrl_hk(cocos2d::extension::CCHttpRequest* self, char const* url){
-    // log::info("SETURL");
     std::string newURL = url;
         
     auto it = newURL.find("https://www.boomlings.com/database");
     if(it != std::string::npos){
-        newURL.replace(it, 34, basementutils::getServerURL(false));
+        newURL.replace(it, 34, basementutils::getServerURL(true));
     }
 
     return self->setUrl(newURL.c_str());
@@ -17,25 +16,22 @@ void setUrl_hk(cocos2d::extension::CCHttpRequest* self, char const* url){
 
 $execute {
 #ifdef GEODE_IS_WINDOWS
-    // Mod::get()->patch((void*)(base::get() + 0x18B2B4), {0xB0, 0x01}); // Load Failed patch
     // Mod::get()->patch((void*)(base::get() + 0x1500AE), {0xE9, 0x01, 0x01, 0x00, 0x00, 0x90}); // Original button
     
 	// for(auto& patch : trBG){ 
     //     Mod::get()->patch((void*)(base::get() + patch.address), patch.bytes);
     // }
 
-    // if(isWinter && Mod::get()->getSettingValue<bool>("basementResources")) {
-    //     // Да я ленивая ж и мне лень считать сколько будет конечный адрес
-    //     basementutils::patchString(base::get() + 0x190856 + 1, "GJ_logo_002.png");
-    //     basementutils::patchString(base::get() + 0x1908BB + 1, "GJ_playBtn_002.png");
-    //     basementutils::patchString(base::get() + 0x19093F + 1, "GJ_garageBtn_002.png");
-    //     basementutils::patchString(base::get() + 0x190A34 + 1, "GJ_creatorBtn_002.png");
-    //     basementutils::patchString(base::get() + 0x190EF1 + 1, "GJ_moreGamesBtn_002.png");
-    // }
+    if(isWinter && Mod::get()->getSettingValue<bool>("basementResources")) {
+        basementutils::patchString(base::get() + 0x27B4E8, "GJ_logo_002.png");
+        basementutils::patchString(base::get() + 0x27B54D, "GJ_playBtn_002.png");
+        basementutils::patchString(base::get() + 0x27B5D1, "GJ_garageBtn_002.png");
+        basementutils::patchString(base::get() + 0x27B6C6, "GJ_creatorBtn_002.png");
+        basementutils::patchString(base::get() + 0x27BC80, "GJ_moreGamesBtn_002.png");
+    }
 
-    // basementutils::patchString(base::get() + 0x3CA28, "Подвал ГДшеров");
-    // basementutils::patchString(base::get() + 0x3CAA1, "Подвал ГДшеров");
-    // Mod::get()->patch((void*)(base::get() + 0x3CA9F), {28});
+    basementutils::patchString(base::get() + 0x5B198, "Подвал ГДшеров");
+    basementutils::patchString(base::get() + 0x5B224, "Подвал ГДшеров");
 
     Mod::get()->hook(
         reinterpret_cast<void*>(GetProcAddress(GetModuleHandleA("libExtensions.dll"), "?setUrl@CCHttpRequest@extension@cocos2d@@QAEXPBD@Z")), 
@@ -45,20 +41,20 @@ $execute {
 #endif
 }
 
-// class $modify(GManager){
-//     void setup(){
-//         std::string basementFilename(this->m_fileName);
-//         basementFilename.replace(0, 2, "BS"); // Brawl Stars
+class $modify(GManager){
+    void setup(){
+        std::string basementFilename(this->m_fileName);
+        basementFilename.replace(0, 2, "BS"); // Brawl Stars
         
-//         if(Mod::get()->getSettingValue<bool>("test-instance")) {
-//             basementFilename.replace(0, 6, "BSTEST");
-//         }
+        if(Mod::get()->getSettingValue<bool>("test-instance")) {
+            basementFilename.replace(0, 6, "BSTEST");
+        }
 
-//         this->m_fileName = basementFilename;
+        this->m_fileName = basementFilename;
 
-//         GManager::setup();
-//     }
-// };
+        GManager::setup();
+    }
+};
 
 // class $modify(GJBaseGameLayer) {
 //     void collectItem(int item, int count) {
