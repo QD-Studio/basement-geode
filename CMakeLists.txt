@@ -4,13 +4,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_OSX_ARCHITECTURES "x86_64")
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
-# function(setOption name value type)
-#     set(${name} ${value} CACHE ${type} "" FORCE)
-# endfunction()
-
-# setOption(GEODE_BINDINGS_REPO_PATH STRING "${CMAKE_CURRENT_SOURCE_DIR}/bindings")
-set(GEODE_BINDINGS_REPO_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bindings)
-
 # clang-win32.cmake
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     set(CMAKE_C_COMPILER clang)
