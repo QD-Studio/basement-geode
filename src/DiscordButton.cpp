@@ -47,9 +47,9 @@ $execute {
     basementutils::patchString(base::get() + 0x20927D, "discordapp.com/users/...");
     basementutils::patchString(base::get() + 0x2EEBD7, "gj_discordIcon_001.png");
     basementutils::patchString(base::get() + 0x2EEF39, "GJ_discordTxt_001.png");
-#elif defined(GEODE_IS_ANDROID)
-    // basementutils::patchString(0x340380, 0x3402F4, "discordapp.com/users/...");
-    // basementutils::patchString(0x355FCC, 0x355DC0, "gj_discordIcon_001.png");
-    // basementutils::patchString(0x355FEC, 0x355FB8, "GJ_discordTxt_001.png");
+#elif defined(GEODE_IS_ANDROID32)
+    basementutils::patchString(0x48D49A, 0x48D496, "discordapp.com/users/...");
+    basementutils::patchString(0x4A4FF8, 0x4A4FF4, "gj_discordIcon_001.png");
+    basementutils::patchString(0x4A51C8, 0x4A51C4, "GJ_discordTxt_001.png");
 #endif
 }
