@@ -107,10 +107,12 @@ void basementutils::reloadAll(){
 }
 
 std::string const basementutils::getServerURL(bool prefix) {
+    auto prefixStr = (Mod::get()->getSettingValue<bool>("test-instance")) ? "server" : "pgcore";
+
     auto url = fmt::format("{}://{}/{}", 
             (Mod::get()->getSettingValue<bool>("http-encryption")) ? "https" : "http", 
             (Mod::get()->getSettingValue<bool>("test-instance")) ? "localhost" : basementURL,
-            (prefix) ? "pgcore" : "");
+            (prefix) ? prefixStr : "");
     
     return url;
 }
