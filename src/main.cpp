@@ -44,7 +44,7 @@ $execute {
         basementutils::reloadAll();
     });
 
-    listenForSettingChanges("test-instance", +[](bool value) {
+    listenForSettingChanges("basement-server", +[](std::string value) {
         shouldSwitchInstance = true;
         GameManager::sharedState()->save();
         basementutils::reloadAll();

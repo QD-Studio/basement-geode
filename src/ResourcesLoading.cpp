@@ -1,5 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/CCTextureCache.hpp>
+#include <Geode/loader/SettingEvent.hpp>
 #include <Geode/modify/LoadingLayer.hpp>
 #include "utils.hpp"
 
@@ -8,10 +9,10 @@ using namespace geode::prelude;
 #ifdef GEODE_IS_WINDOWS
 
 inline std::unordered_map<uintptr_t, const char*> resPatches = {
-    {0x273471, "CantLetGo.mp3"},
-    {0x27352C, "Clubstep.mp3"},
-    {0x27353D, "Electrodynamix.mp3"},
-    {0x121782, "menuLoop.mp3"},
+    {0x273471, "CantLetGo.mp3"_spr},
+    {0x27352C, "Clubstep.mp3"_spr},
+    {0x27353D, "Electrodynamix.mp3"_spr},
+    {0x121782, "menuLoop.mp3"_spr},
 };
 
 CCDictionary* addDict_hk(CCContentManager* self, const char* filename, bool idk) {
@@ -26,13 +27,34 @@ CCDictionary* addDict_hk(CCContentManager* self, const char* filename, bool idk)
     return self->addDict(filename, idk);
 }
 
-$execute {
+void patchMusic(bool value) {
     for (auto& patch : resPatches) {
-		if (ghc::filesystem::exists(Mod::get()->getResourcesDir() / patch.second)) {
-            patch.second = Mod::get()->expandSpriteName(patch.second);
-			basementutils::patchString(base::get() + patch.first, patch.second);
-		}
+        // log::info("MUSIC: {}", value);
+        if (value) {
+            // log::debug("ehllo? {} {}", Mod::get()->getResourcesDir().parent_path(), patch.second);
+            if (ghc::filesystem::exists(Mod::get()->getResourcesDir().parent_path() / patch.second)) {
+                // log::debug("kekw");
+                basementutils::patchString(base::get() + patch.first, patch.second);
+            }
+        } else {
+            auto patches = Mod::get()->getPatches();
+            for (auto p : patches) {
+                if (p->getAddress() == patch.first + base::get()) {
+                    // p->disable();
+                    Mod::get()->disownPatch(p);
+                }
+            }
+        }
 	}
+}
+
+$execute {
+    using namespace geode::prelude;
+    listenForSettingChanges("basement-music", +[](bool value) {
+        patchMusic(value);
+    });
+
+    patchMusic(Mod::get()->getSettingValue<bool>("basement-music"));
 
     Mod::get()->hook(
         reinterpret_cast<void*>(GetProcAddress(GetModuleHandleA("libcocos2d.dll"), "?addDict@CCContentManager@@QAEPAVCCDictionary@cocos2d@@PBD_N@Z")), 

@@ -45,9 +45,13 @@ class $modify(GManager){
     void setup(){
         std::string basementFilename(this->m_fileName);
         basementFilename.replace(0, 2, "BS"); // Brawl Stars
+
+        auto name = Mod::get()->getSettingValue<std::string>("basement-server");
         
-        if(Mod::get()->getSettingValue<bool>("test-instance")) {
+        if( name == "test") {
             basementFilename.replace(0, 6, "BSTEST");
+        } else if (name == "local") {
+            basementFilename.replace(0, 7, "BSLOCAL");
         }
 
         this->m_fileName = basementFilename;

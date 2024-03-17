@@ -9,7 +9,7 @@
 	"early-load": true,
 
 	"settings": {
-		"basementResources":{
+		"basementResources": {
 			"name": "Enable Basement resources",
 			"description": "Enable BasementGDPS texturepack",
 			"type": "bool",
@@ -34,11 +34,18 @@
 			"type": "bool",
 			"default": false
 		},
-		"test-instance": {
-			"description": "Switches to test instance of server",
-			"name": "Test instance (restart required)",
+		"basement-music": {
+			"name": "Enable Basement music",
+			"description": "Enable remixes for some songs and change the title music (requires going to main menu)",
 			"type": "bool",
-			"default": false
+			"default": true
+		},
+		"basement-server": {
+			"type": "string",
+			"name": "Change the BasementGDPS server",
+			"description": "main, test or local",
+			"match": "(main)|(test)|(local)",
+			"default": "main"
 		}
 	},
 
