@@ -8,7 +8,7 @@ using namespace geode::prelude;
 
 class $modify(ProfilePage) {
     void onTwitter(CCObject* pObj) {
-        CCApplication::sharedApplication()->openURL(std::string("https://discordapp.com/users/").assign(this->m_score->m_twitterURL).c_str());
+        CCApplication::sharedApplication()->openURL(fmt::format("https://discordapp.com/users/{}", this->m_score->m_twitterURL).c_str());
     }
 };
 
@@ -46,10 +46,10 @@ $execute {
 #ifdef GEODE_IS_WINDOWS
     basementutils::patchString(base::get() + 0x20927D, "discordapp.com/users/...");
     basementutils::patchString(base::get() + 0x2EEBD7, "gj_discordIcon_001.png");
-    basementutils::patchString(base::get() + 0x2EEF39, "GJ_discordTxt_001.png");
+    basementutils::patchString(base::get() + 0x2EEF39, "GJ_discordTxt_001.png"_spr);
 #elif defined(GEODE_IS_ANDROID32)
-    basementutils::patchString(0x48D49A, 0x48D496, "discordapp.com/users/...");
-    basementutils::patchString(0x4A4FF8, 0x4A4FF4, "gj_discordIcon_001.png");
-    basementutils::patchString(0x4A51C8, 0x4A51C4, "GJ_discordTxt_001.png");
+    // basementutils::patchString(0x48D49A, 0x48D496, "discordapp.com/users/...");
+    // basementutils::patchString(0x4A4FF8, 0x4A4FF4, "gj_discordIcon_001.png");
+    // basementutils::patchString(0x4A51C8, 0x4A51C4, "GJ_discordTxt_001.png");
 #endif
 }

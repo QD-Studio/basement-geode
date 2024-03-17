@@ -8,23 +8,10 @@ using namespace geode::prelude;
 #ifdef GEODE_IS_WINDOWS
 
 inline std::unordered_map<uintptr_t, const char*> resPatches = {
-    {0x189FE0, "CantLetGo.mp3"_spr},
-    {0x18A09B, "Clubstep.mp3"_spr},
-    {0x18A0AC, "Electrodynamix.mp3"_spr},
-    
-    {0x2452F, "menuLoop.mp3"_spr},
-    {0x24976, "menuLoop.mp3"_spr},
-    {0x249A3, "menuLoop.mp3"_spr},
-    {0xCE8A7, "menuLoop.mp3"_spr},
-    {0x14BB1B, "menuLoop.mp3"_spr},
-    {0x1583EB, "menuLoop.mp3"_spr},
-    {0x18CEFB, "menuLoop.mp3"_spr},
-    {0x1907EE, "menuLoop.mp3"_spr},
-    {0x1DDF5B, "menuLoop.mp3"_spr},
-    {0x20D9E1, "menuLoop.mp3"_spr},
-    {0x21F988, "menuLoop.mp3"_spr},
-    {0x22471A, "menuLoop.mp3"_spr},
-    {0x22B307, "menuLoop.mp3"_spr},
+    {0x273471, "CantLetGo.mp3"},
+    {0x27352C, "Clubstep.mp3"},
+    {0x27353D, "Electrodynamix.mp3"},
+    {0x121782, "menuLoop.mp3"},
 };
 
 CCDictionary* addDict_hk(CCContentManager* self, const char* filename, bool idk) {
@@ -40,11 +27,12 @@ CCDictionary* addDict_hk(CCContentManager* self, const char* filename, bool idk)
 }
 
 $execute {
-    // for(auto& patch : resPatches){
-	// 	// if(ghc::filesystem::exists(Mod::get()->getResourcesDir() / patch.str)){
-	// 		basementutils::patchString(base::get() + patch.address + 1, patch.str);
-	// 	// }
-	// }
+    for (auto& patch : resPatches) {
+		if (ghc::filesystem::exists(Mod::get()->getResourcesDir() / patch.second)) {
+            patch.second = Mod::get()->expandSpriteName(patch.second);
+			basementutils::patchString(base::get() + patch.first, patch.second);
+		}
+	}
 
     Mod::get()->hook(
         reinterpret_cast<void*>(GetProcAddress(GetModuleHandleA("libcocos2d.dll"), "?addDict@CCContentManager@@QAEPAVCCDictionary@cocos2d@@PBD_N@Z")), 

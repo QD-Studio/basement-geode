@@ -8,7 +8,7 @@ class $modify(LevelSelectLayer) {
         if(!LevelSelectLayer::init(lvl)) return false;
 
         auto sprite = (CCSprite*)this->getChildren()->objectAtIndex(0);
-        sprite->setColor({ 255, 255, 255 });
+        sprite->setColor({ 163, 163, 163 });
 
         auto ground = (CCNode*)this->getChildren()->objectAtIndex(1);
         ground->setVisible(false);
