@@ -130,18 +130,18 @@ class $modify(AFKMode, MenuLayer) {
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
         auto tempBG = createBG("menubg.png"_spr);
+        tempBG->setID("temp-bg");
 
         if(tempBG) {
             auto mainMenuBg = (CCNode*)this->getChildByID("main-menu-bg");
-            mainMenuBg->addChild(tempBG, -4);
+            mainMenuBg->addChild(tempBG, 100);
             
-            auto groundLayer = (CCNode*)mainMenuBg->getChildren()->lastObject();
+            auto groundLayer = (GJGroundLayer*)mainMenuBg->getChildren()->objectAtIndex(15);
             if(groundLayer)
-                groundLayer->setZOrder(-10);
+                groundLayer->setZOrder(-5);
             
             auto menuBG = mainMenuBg->getChildByID("basement-bg");
-            menuBG->setZOrder(-1);
-            tempBG->setID("temp-bg");
+            menuBG->setZOrder(-4);
             tempBG->runAction(CCSequence::create(CCDelayTime::create(1), CCFadeTo::create(1, 0), CCRemoveSelf::create(), NULL));
         } // Пришлось сделать так потому что кубикам и их частицам нельзя задать прозрачность
 
@@ -195,7 +195,7 @@ class $modify(AFKMode, MenuLayer) {
         auto mainMenuBg = (CCNode*)this->getChildByID("main-menu-bg");
         if(mainMenuBg) {
             auto basementBg = (CCSprite*)mainMenuBg->getChildByID("basement-bg");
-            basementBg->setZOrder(10);
+            basementBg->setZOrder(100);
             this->scheduleOnce(SEL_SCHEDULE(&AFKMode::enterAFKMode), Mod::get()->getSettingValue<int64_t>("afk-time"));
         }
     }

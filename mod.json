@@ -9,12 +9,6 @@
 	"early-load": true,
 
 	"settings": {
-		"http-encryption":{
-			"name": "HTTP encryption",
-			"description": "Replaces http to https in urls",
-			"type": "bool",
-			"default": true
-		},
 		"basementResources":{
 			"name": "Enable Basement resources",
 			"description": "Enable BasementGDPS texturepack",
@@ -40,15 +34,9 @@
 			"type": "bool",
 			"default": false
 		},
-		"auto-backup": {
-			"description": "Auto backup account when exit",
-			"name": "Auto account backup",
-			"type": "bool",
-			"default": true
-		},
 		"test-instance": {
 			"description": "Switches to test instance of server",
-			"name": "Test instance",
+			"name": "Test instance (restart required)",
 			"type": "bool",
 			"default": false
 		}
