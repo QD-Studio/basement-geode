@@ -1,8 +1,23 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
-#include "patches.hpp"
 #include <Geode/loader/SettingEvent.hpp>
+#include <Geode/modify/LoadingLayer.hpp>
 #include "ModBadge.hpp"
+#include "patches.hpp"
+
+bool instanceChanging = false;
+
+class $modify(LoadingLayer) {
+    bool init(bool restart) {
+        if(instanceChanging) {
+            GameManager::sharedState()->~GameManager(); // Это важно
+            GameManager::sharedState()->init();
+            instanceChanging = false;
+        }
+
+        return LoadingLayer::init(restart);
+    }
+};
 
 using namespace geode::prelude;
 $execute {
@@ -30,7 +45,8 @@ $execute {
     });
 
     listenForSettingChanges("test-instance", +[](bool value) {
+        instanceChanging = true;
+        GameManager::sharedState()->save();
         basementutils::reloadAll();
-        GameManager::sharedState()->setup();
     });
 }
