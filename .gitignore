@@ -52,3 +52,5 @@
 
 # clangd
 .cache/
+
+build_linux/
