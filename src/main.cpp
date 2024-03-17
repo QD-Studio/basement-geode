@@ -5,14 +5,14 @@
 #include "ModBadge.hpp"
 #include "patches.hpp"
 
-bool instanceChanging = false;
+bool shouldSwitchInstance = false;
 
 class $modify(LoadingLayer) {
     bool init(bool restart) {
-        if(instanceChanging) {
+        if(shouldSwitchInstance) {
             GameManager::sharedState()->~GameManager(); // Это важно
             GameManager::sharedState()->init();
-            instanceChanging = false;
+            shouldSwitchInstance = false;
         }
 
         return LoadingLayer::init(restart);
@@ -45,7 +45,7 @@ $execute {
     });
 
     listenForSettingChanges("test-instance", +[](bool value) {
-        instanceChanging = true;
+        shouldSwitchInstance = true;
         GameManager::sharedState()->save();
         basementutils::reloadAll();
     });
