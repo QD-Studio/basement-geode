@@ -114,8 +114,6 @@ std::string const basementutils::getServerURL(bool prefix) {
     }
 
     auto url = fmt::format("https://{}/{}", help, prefix ? (setting == "main" ? "pgcore" : "server") : "");
-
-    log::debug("URL {}", url);
     
     return url;
 }
