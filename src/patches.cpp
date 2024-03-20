@@ -2,6 +2,7 @@
 #include <Geode/modify/GManager.hpp>
 #include <Geode/modify/GJBaseGameLayer.hpp>
 #include <Geode/modify/CCApplication.hpp>
+#include <Geode/modify/AchievementManager.hpp>
 
 void setUrl_hk(cocos2d::extension::CCHttpRequest* self, char const* url){
     std::string newURL = url;
@@ -57,6 +58,13 @@ class $modify(GManager){
         this->m_fileName = basementFilename;
 
         GManager::setup();
+    }
+};
+
+// Disable steam achievements
+class $modify(AchievementManager) {
+    void reportPlatformAchievementWithID(char const*, int) {
+        return;
     }
 };
 
