@@ -3,6 +3,7 @@
 #include <Geode/modify/GJBaseGameLayer.hpp>
 #include <Geode/modify/CCApplication.hpp>
 #include <Geode/modify/AchievementManager.hpp>
+#include <Geode/modify/GameManager.hpp>
 
 void setUrl_hk(cocos2d::extension::CCHttpRequest* self, char const* url){
     std::string newURL = url;
@@ -13,6 +14,10 @@ void setUrl_hk(cocos2d::extension::CCHttpRequest* self, char const* url){
     }
 
     return self->setUrl(newURL.c_str());
+}
+
+bool initSteamAPI() {
+    return 1;
 }
 
 $execute {
@@ -39,6 +44,9 @@ $execute {
         &setUrl_hk, "cocos2d::extension::CCHttpRequest::setUrl", tulip::hook::TulipConvention::Thiscall
     );
 
+    Mod::get()->hook(
+        (void*)(base::get() + 0x53020), &initSteamAPI, "initSteamAPI", tulip::hook::TulipConvention::Thiscall
+    );
 #endif
 }
 
@@ -66,8 +74,11 @@ class $modify(AchievementManager) {
     void reportPlatformAchievementWithID(char const*, int) {
         return;
     }
-};
 
+    void reportAchievementWithID(char const*, int, bool) {
+        return;
+    }
+};
 // class $modify(GJBaseGameLayer) {
 //     void collectItem(int item, int count) {
 //         return GJBaseGameLayer::collectItem(std::clamp(item, 0, 1099), count);
