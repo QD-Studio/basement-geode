@@ -69,16 +69,6 @@ class $modify(GManager){
     }
 };
 
-// Disable steam achievements
-class $modify(AchievementManager) {
-    void reportPlatformAchievementWithID(char const*, int) {
-        return;
-    }
-
-    void reportAchievementWithID(char const*, int, bool) {
-        return;
-    }
-};
 // class $modify(GJBaseGameLayer) {
 //     void collectItem(int item, int count) {
 //         return GJBaseGameLayer::collectItem(std::clamp(item, 0, 1099), count);
