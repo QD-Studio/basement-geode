@@ -1,4 +1,5 @@
 #include "CreditsLayer.hpp"
+#include "utils.hpp"
 #include <Geode/modify/MenuLayer.hpp>
 #include <Geode/modify/MenuGameLayer.hpp>
 
@@ -42,7 +43,7 @@ class $modify(AFKMode, MenuLayer) {
         auto mainMenu = (CCMenu*)this->getChildByID("main-menu");
 
         // Выравниваем кнопки для бг
-        if(Mod::get()->getSettingValue<bool>("basementResources")){
+        if(Mod::get()->getSettingValue<bool>("basement-resources")){
             auto playbtn = mainMenu->getChildByID("play-button");
             playbtn->setPositionY(-2);
             
@@ -73,7 +74,7 @@ class $modify(AFKMode, MenuLayer) {
         text->setZOrder(99);
 
         // Если сейчас зима, то начинаем снежную вечеринку
-        if(isWinter) {
+        if(basementutils::isWinterNow()) {
             CCParticleSnow* snow = CCParticleSnow::create();
 
             snow->setPosition({winSize.width / 2, winSize.height + 10});

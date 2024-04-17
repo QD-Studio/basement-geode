@@ -12,6 +12,7 @@ CreditsLayer* CreditsLayer::create() {
 }
 
 bool CreditsLayer::init() {
+    // Прелюдии
     auto backgroundSprite = CCSprite::create("GJ_gradientBG.png");
 
     auto winSize = CCDirector::sharedDirector()->getWinSize();
@@ -25,8 +26,6 @@ bool CreditsLayer::init() {
     addChild(backgroundSprite);
 
     auto button = CCMenuItemSpriteExtra::create(CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png"), this, menu_selector(CreditsLayer::backButtonCallback));
-
-
     auto menu = CCMenu::create();
     menu->addChild(button);
     menu->setPosition({25, winSize.height - 25});
@@ -41,10 +40,12 @@ bool CreditsLayer::init() {
     auto layer = CCLayer::create();
     layer->setID("credits-layer");
 
+    // Логотип Подвал ГДшеров
     auto logo = CCSprite::createWithSpriteFrameName("GJ_logo_001.png");
     logo->setPosition({winSize.width / 2, winSize.height + 50});
     layer->addChild(logo);
 
+    // Оригинальный разработчик игры    
     auto textOriginalDev = CCLabelBMFont::create("Geometry Dash developer:", "bigFont.fnt");
     textOriginalDev->setPosition({winSize.width / 2, logo->getPositionY() - 80});
     layer->addChild(textOriginalDev);
@@ -53,6 +54,7 @@ bool CreditsLayer::init() {
     robtopLogo->setPosition({winSize.width / 2, textOriginalDev->getPositionY() - 35});
     layer->addChild(robtopLogo);
 
+    // Команда Подвал ГДшеров
     auto textBasementDevs = CCLabelBMFont::create("BasementGDPS team:", "bigFont.fnt");
     textBasementDevs->setPosition({winSize.width / 2, robtopLogo->getPositionY() - 60});
     layer->addChild(textBasementDevs);
@@ -85,6 +87,7 @@ bool CreditsLayer::init() {
 
     }
 
+    // Авторы музыкальных ремиксов
     auto textRemixCredits = CCLabelBMFont::create("Authors of the song remixes:", "bigFont.fnt");
     textRemixCredits->setPosition({winSize.width / 2, qdstudioLogo->getPositionY() - 60 - (50 * this->devs.size()) - 60});
     layer->addChild(textRemixCredits);
@@ -95,6 +98,7 @@ bool CreditsLayer::init() {
         layer->addChild(label);
     }
 
+    // Благодарность игроку
     auto thankyou = CCLabelBMFont::create(
         "Special thanks to YOU for playing on\n our private server, we really appreciate it =)", "bigFont.fnt");
     thankyou->setPosition({winSize.width / 2, qdstudioLogo->getPositionY() - 60 - (50 * this->devs.size()) - (winSize.width / 2)});
@@ -106,9 +110,11 @@ bool CreditsLayer::init() {
     layer->setScale(0.5f);
     addChild(layer);
 
+    // Скроллим весь layer
     CCAction* a1 = CCMoveTo::create(30, {layer->getPositionX(), 600});
     a1->setTag(1);
 
+    // И скроллим отдельно благодарность игроку чтобы она остановилась по центру экрана (костыль)
     CCAction* a2 = CCMoveTo::create(30, {winSize.width / 2, winSize.height / 2});
     a2->setTag(2);
 
@@ -136,6 +142,7 @@ void CreditsLayer::switchToCustomLayerButton(CCObject* object) {
     CCDirector::sharedDirector()->pushScene(transition);
 }
 
+// Ускорение скроллинга во время прикосновения к экрану или зажатия ПКМ
 bool CreditsLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
     CCLayer* layer = (CCLayer*)this->getChildByIDRecursive("credits-layer");
     layer->getScheduler()->setTimeScale(2.0f);

@@ -14,7 +14,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -target i386-pc-windows-msvc")
 endif()
 
-project(BasementGeode VERSION 1.6.0)
+project(BasementGeode VERSION 1.6.2)
 
 file(GLOB SOURCES
 	src/*.cpp

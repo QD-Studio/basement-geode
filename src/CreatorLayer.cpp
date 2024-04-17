@@ -3,6 +3,8 @@
 
 using namespace geode::prelude;
 
+// Убиваем квесты, ежедневные и еженедельные уровни
+
 class $modify(Warning, CreatorLayer) {
     void showWarning() {
         auto alert = FLAlertLayer::create("Error", "Not available.", "OK");
@@ -10,10 +12,6 @@ class $modify(Warning, CreatorLayer) {
     }
 
     void onDailyLevel(CCObject*) {
-        // auto dialogObj = DialogObject::create("The Keymaster", "we don't need it...", 2, 1.0f, false, {255, 255, 255});
-        // auto dialog = DialogLayer::create(dialogObj, 2);
-        // this->addChild(dialog);
-        // dialog->animateInRandomSide();
         showWarning();
     }
 

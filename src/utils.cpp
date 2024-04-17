@@ -41,11 +41,11 @@ void basementutils::patchString(uintptr_t const dcd, uintptr_t const add, char c
 
 #endif
 
-const std::string basementutils::getVersion() {
+std::string const basementutils::getVersion() {
     return fmt::format("{}.{}.{}", ver.major, ver.minor, ver.revision);
 }
 
-const std::string basementutils::getQualityString(std::string filename) {
+std::string const basementutils::getQualityString(std::string filename) {
     if(filename.find("-uhd") != std::string::npos) filename.erase(filename.find("-uhd"), 4);
     if(filename.find("-hd") != std::string::npos) filename.erase(filename.find("-hd"), 3);
 
@@ -116,4 +116,16 @@ std::string const basementutils::getServerURL(bool prefix) {
     auto url = fmt::format("https://{}/{}", help, prefix ? (setting == "main" ? "pgcore" : "server") : "");
     
     return url;
+}
+
+bool basementutils::isWinterNow() {
+    auto t = std::time(0);
+    tm tm_;
+#if defined(GEODE_IS_WINDOWS)
+    localtime_s(&tm_, &t);
+#elif defined(GEODE_IS_ANDROID)
+    localtime_r(&t, &tm_);
+#endif
+
+    return tm_.tm_mon <= 1 || tm_.tm_mon == 11;
 }

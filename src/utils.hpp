@@ -12,8 +12,7 @@ struct Version {
 };
 
 const std::string basementURL = "www.podvalgdsherov.fun";
-const Version ver = {1, 6, 0};
-inline bool isWinter = false;
+const Version ver = {1, 6, 2};
 
 namespace basementutils {
 #ifdef GEODE_IS_WINDOWS
@@ -30,4 +29,5 @@ namespace basementutils {
     void reloadAll();
 
     std::string const getServerURL(bool prefix);
+    bool isWinterNow();
 };
