@@ -7,7 +7,8 @@ void setUrl_hk(cocos2d::extension::CCHttpRequest* self, char const* url){
     std::string newURL = url;
         
     auto it = newURL.find("https://www.boomlings.com/database");
-    if(it != std::string::npos){
+
+    if (it != std::string::npos) {
         newURL.replace(it, 34, basementutils::getServerURL(true));
     }
 
