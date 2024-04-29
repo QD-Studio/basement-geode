@@ -1,7 +1,10 @@
 {
 	"geode": "2.0.0-beta.25",
-	"version": "v1.6.0",
-	"gd": "2.204",
+	"version": "v1.6.2",
+	"gd": {
+		"win": "2.204",
+		"android": "2.205"
+	},
 	"id": "qdstudio.basementgdps",
 	"name": "BasementGDPS",
 	"developer": "QD Studio",
@@ -9,7 +12,7 @@
 	"early-load": true,
 
 	"settings": {
-		"basementResources": {
+		"basement-resources": {
 			"name": "Enable Basement resources",
 			"description": "Enable BasementGDPS texturepack",
 			"type": "bool",
