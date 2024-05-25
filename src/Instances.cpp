@@ -3,7 +3,6 @@
 #include <Geode/modify/GManager.hpp>
 #include <Geode/modify/LoadingLayer.hpp>
 #include <Geode/modify/GameManager.hpp>
-#include <Geode/modify/CCHttpRequest.hpp>
 #include "utils.hpp"
 
 using namespace geode::prelude;
