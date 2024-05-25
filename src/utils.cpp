@@ -109,12 +109,14 @@ void basementutils::reloadAll(){
 std::string const basementutils::getServerURL(bool prefix) {
     auto setting = Mod::get()->getSettingValue<std::string>("basement-server");
     std::string help = "www.podvalgdsherov.fun";
+    bool https = true;
     if (setting == "local") {
         help = "localhost";
+        https = false;
     }
 
-    auto url = fmt::format("https://{}/{}", help, prefix ? (setting == "main" ? "pgcore" : "server") : "");
-    
+    auto url = fmt::format("{}://{}/{}", https ? "https" : "http", help, prefix ? (setting == "main" ? "pgcore" : "server") : "");
+
     return url;
 }
 
