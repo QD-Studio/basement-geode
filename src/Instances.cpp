@@ -3,11 +3,14 @@
 #include <Geode/modify/GManager.hpp>
 #include <Geode/modify/LoadingLayer.hpp>
 #include <Geode/modify/GameManager.hpp>
+#include <Geode/modify/AccountLoginLayer.hpp>
+#include <Geode/modify/GJAccountManager.hpp>
 #include "utils.hpp"
 
 using namespace geode::prelude;
 
 bool shouldSwitchInstance = false;
+gd::string password;
 
 // При смене пространства нужно уничтожить GameManager чтобы игра прочитала другие сохранения
 class $modify(LoadingLayer) {
@@ -51,21 +54,18 @@ class $modify(GameManager) {
     }
 };
 
-// Меняем URL сервера в рантайме
-#if defined(GEODE_IS_WINDOWS)
-void setUrl_hk(cocos2d::extension::CCHttpRequest* self, char const* url){
-    std::string newURL = url;
-        
-    auto it = newURL.find("https://www.boomlings.com/database");
-    if(it != std::string::npos){
-        newURL.replace(it, 34, basementutils::getServerURL(true));
-    }
+class $modify(AccountLoginLayer) {
+    void onSubmit(CCObject* sender) {
+        password = m_passwordInput->getString();
 
-    return self->setUrl(newURL.c_str());
-}
-#elif defined(GEODE_IS_ANDROID)
+        AccountLoginLayer::onSubmit(sender);
+    }
+};
+
+// Меняем URL сервера в рантайме
 void sendRequest_hk(CCHttpClient* self, CCHttpRequest* request) {
     std::string newURL = request->getUrl();
+    std::string body(request->getRequestData(), request->getRequestDataSize());
         
     auto it = newURL.find("https://www.boomlings.com/database");
     if(it != std::string::npos){
@@ -73,21 +73,31 @@ void sendRequest_hk(CCHttpClient* self, CCHttpRequest* request) {
     }
 
     request->setUrl(newURL.c_str());
-    return self->send(self, request);
+    
+    log::info("curl {} -d \"{}\" -A \"\"", newURL, body);
+
+    if(newURL.find("loginGJAccount.php") != std::string::npos) {
+        auto shapassword = GJAccountManager::get()->getShaPassword(password); 
+        auto it = body.find(shapassword);
+        body.replace(it, shapassword.capacity() - 1, password.c_str());
+
+        request->setRequestData(body.c_str(), body.size());
+    }
+    
+    return self->send(request);
 }
-#endif
 
 $execute {
     // Хук для подмены URL сервера в рантайме
 #if defined(GEODE_IS_WINDOWS)
     Mod::get()->hook(
-        reinterpret_cast<void*>(GetProcAddress(GetModuleHandleA("libExtensions.dll"), "?setUrl@CCHttpRequest@extension@cocos2d@@QAEXPBD@Z")), 
-        &setUrl_hk, "cocos2d::extension::CCHttpRequest::setUrl", tulip::hook::TulipConvention::Thiscall
+        reinterpret_cast<void*>(GetProcAddress(GetModuleHandleA("libExtensions.dll"), "?send@CCHttpClient@extension@cocos2d@@QAEXPAVCCHttpRequest@23@@Z")), 
+        &sendRequest_hk, "cocos2d::extension::CCHttpClient::send", tulip::hook::TulipConvention::Thiscall
     );
 #elif defined(GEODE_IS_ANDROID)
         Mod::get()->hook(
         reinterpret_cast<void*>(dlsym(dlopen("libcocos2dcpp.so", RLTD_LAZY), "_ZN7cocos2d9extension12CCHttpClient4sendEPNS0_13CCHttpRequestE")), 
-        &setUrl_hk, "cocos2d::extension::CCHttpClient::send", tulip::hook::TulipConvention::Default
+        &sendRequest_hk, "cocos2d::extension::CCHttpClient::send", tulip::hook::TulipConvention::Default
     );
 #endif
     

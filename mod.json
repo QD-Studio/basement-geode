@@ -47,7 +47,7 @@
 			"type": "string",
 			"name": "Change the BasementGDPS server",
 			"description": "main, test or local",
-			"match": "(main)|(test)|(local)",
+			"match": "(main)|(local)",
 			"default": "main"
 		}
 	},
