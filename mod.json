@@ -1,9 +1,8 @@
 {
-	"geode": "2.0.0-beta.25",
-	"version": "v1.6.2",
+	"geode": "3.0.0-alpha.1",
+	"version": "v1.6.3",
 	"gd": {
-		"win": "2.204",
-		"android": "2.205"
+		"win": "2.206"
 	},
 	"id": "qdstudio.basementgdps",
 	"name": "BasementGDPS",

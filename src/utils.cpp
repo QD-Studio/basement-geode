@@ -32,7 +32,7 @@ std::string basementutils::cp1251_to_utf8(const char *str){
     return res;
 }
 
-#elif defined(GEODE_IS_ANDROID)
+#elif defined(GEODE_IS_ANDROID32)
 
 void basementutils::patchString(uintptr_t const dcd, uintptr_t const add, char const* str) {
     Mod::get()->patch((void*)(base::get() + dcd), ByteVector {(uint8_t*)&str, (uint8_t*)&str + 4});
@@ -49,7 +49,7 @@ std::string const basementutils::getQualityString(std::string filename) {
     if(filename.find("-uhd") != std::string::npos) filename.erase(filename.find("-uhd"), 4);
     if(filename.find("-hd") != std::string::npos) filename.erase(filename.find("-hd"), 3);
 
-    std::string extension = ghc::filesystem::path(filename).extension().string();
+    std::string extension = std::filesystem::path(filename).extension().string();
     auto quality = CCDirector::get()->getLoadedTextureQuality();
 
     switch (quality){

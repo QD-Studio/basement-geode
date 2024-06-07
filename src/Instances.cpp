@@ -10,7 +10,7 @@
 using namespace geode::prelude;
 
 bool shouldSwitchInstance = false;
-gd::string password;
+const char* s_password;
 
 // При смене пространства нужно уничтожить GameManager чтобы игра прочитала другие сохранения
 class $modify(LoadingLayer) {
@@ -33,9 +33,7 @@ class $modify(GManager){
 
         auto name = Mod::get()->getSettingValue<std::string>("basement-server");
         
-        if( name == "test") {
-            basementFilename.replace(0, 6, "BSTEST");
-        } else if (name == "local") {
+        if (name == "local") {
             basementFilename.replace(0, 7, "BSLOCAL");
         }
 
@@ -56,7 +54,7 @@ class $modify(GameManager) {
 
 class $modify(AccountLoginLayer) {
     void onSubmit(CCObject* sender) {
-        password = m_passwordInput->getString();
+        s_password = m_passwordInput->getString().c_str();
 
         AccountLoginLayer::onSubmit(sender);
     }
@@ -77,9 +75,9 @@ void sendRequest_hk(CCHttpClient* self, CCHttpRequest* request) {
     log::info("curl {} -d \"{}\" -A \"\"", newURL, body);
 
     if(newURL.find("loginGJAccount.php") != std::string::npos) {
-        auto shapassword = GJAccountManager::get()->getShaPassword(password); 
+        auto shapassword = GJAccountManager::get()->getShaPassword(s_password); 
         auto it = body.find(shapassword);
-        body.replace(it, shapassword.capacity() - 1, password.c_str());
+        body.replace(it, shapassword.capacity() - 1, s_password);
 
         request->setRequestData(body.c_str(), body.size());
     }
@@ -91,7 +89,7 @@ $execute {
     // Хук для подмены URL сервера в рантайме
 #if defined(GEODE_IS_WINDOWS)
     Mod::get()->hook(
-        reinterpret_cast<void*>(GetProcAddress(GetModuleHandleA("libExtensions.dll"), "?send@CCHttpClient@extension@cocos2d@@QAEXPAVCCHttpRequest@23@@Z")), 
+        reinterpret_cast<void*>(GetProcAddress(GetModuleHandleA("libExtensions.dll"), "?send@CCHttpClient@extension@cocos2d@@QEAAXPEAVCCHttpRequest@23@@Z")), 
         &sendRequest_hk, "cocos2d::extension::CCHttpClient::send", tulip::hook::TulipConvention::Thiscall
     );
 #elif defined(GEODE_IS_ANDROID)

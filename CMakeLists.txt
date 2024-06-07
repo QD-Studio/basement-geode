@@ -6,15 +6,7 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 set(GEODE_TARGET_PLATFORM Win32)
 
-# clang-win32.cmake
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    set(CMAKE_C_COMPILER clang)
-    set(CMAKE_CXX_COMPILER clang++)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -target i386-pc-windows-msvc")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -target i386-pc-windows-msvc")
-endif()
-
-project(BasementGeode VERSION 1.6.2)
+project(BasementGeode VERSION 1.6.3)
 
 file(GLOB SOURCES
 	src/*.cpp

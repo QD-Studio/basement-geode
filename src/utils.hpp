@@ -11,14 +11,13 @@ struct Version {
     uint16_t revision;
 };
 
-const std::string basementURL = "www.podvalgdsherov.fun";
-const Version ver = {1, 6, 2};
+const inline Version ver = {1, 6, 3};
 
 namespace basementutils {
 #ifdef GEODE_IS_WINDOWS
     void patchString(uintptr_t const absoluteAddr, char const* str);
     std::string cp1251_to_utf8(const char *str);
-#elif defined(GEODE_IS_ANDROID)
+#elif defined(GEODE_IS_ANDROID32)
     void patchString(uintptr_t const dcd, uintptr_t const add, char const* str);
 #endif
 

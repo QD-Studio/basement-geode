@@ -3,13 +3,6 @@
 
 #include "utils.hpp"
 
-#ifdef GEODE_IS_WINDOWS
-// Нам не нужен SteamAPI
-bool initSteamAPI() {
-    return 1;
-}
-#endif
-
 $execute {
 #ifdef GEODE_IS_WINDOWS
     // Убираем кнопку "Original" в описании уровня
@@ -17,22 +10,20 @@ $execute {
 
     // Делаем текстурки в главном меню снежными, если сейчас зима
     if(basementutils::isWinterNow() && Mod::get()->getSettingValue<bool>("basement-resources")) {
-        basementutils::patchString(base::get() + 0x27B4E8, "GJ_logo_002.png");
-        basementutils::patchString(base::get() + 0x27B54D, "GJ_playBtn_002.png");
-        basementutils::patchString(base::get() + 0x27B5D1, "GJ_garageBtn_002.png");
-        basementutils::patchString(base::get() + 0x27B6C6, "GJ_creatorBtn_002.png");
-        basementutils::patchString(base::get() + 0x27BC80, "GJ_moreGamesBtn_002.png");
+        basementutils::patchString(base::get() + 0x313317, "GJ_logo_002.png");
+        basementutils::patchString(base::get() + 0x313397, "GJ_playBtn_002.png");
+        basementutils::patchString(base::get() + 0x313415, "GJ_garageBtn_002.png");
+        basementutils::patchString(base::get() + 0x313555, "GJ_creatorBtn_002.png");
+        basementutils::patchString(base::get() + 0x313BE0, "GJ_moreGamesBtn_002.png");
     }
 
     // Меняем название окна
-    basementutils::patchString(base::get() + 0x5B198, "Подвал ГДшеров");
-    basementutils::patchString(base::get() + 0x5B224, "Подвал ГДшеров");
+    // basementutils::patchString(base::get() + 0x5B198, "Подвал ГДшеров");
+    // basementutils::patchString(base::get() + 0x5B224, "Подвал ГДшеров");
 
-    // Хук SteamAPI чтобы не выдавались достижения Steam, которые были получены на приватном сервере
-    Mod::get()->hook(
-        (void*)(base::get() + 0x53020), &initSteamAPI, "initSteamAPI", tulip::hook::TulipConvention::Thiscall
-    );
-#elif defined(GEODE_IS_ANDROID)
+    // Пропускаем инициализацию SteamAPI_Init, чтобы не выдавались достижения, полученные в подвале
+    Mod::get()->patch((void*)(base::get() + 0x4A2C8B), {0xE9, 0x42, 0x00, 0x00, 0x00}); // jmp loc_1404A2D1A
+#elif defined(GEODE_IS_ANDROID32)
     // Делаем текстурки в главном меню снежными, если сейчас зима
     if(basementutils::isWinterNow() && Mod::get()->getSettingValue<bool>("basement-resources")) {
         basementutils::patchString(0x2FD99E, 0x2FD99A, "GJ_logo_002.png");

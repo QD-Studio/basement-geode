@@ -19,8 +19,4 @@ class $modify(LevelSelectLayer) {
     void scrollLayerMoved(cocos2d::CCPoint){
         return;
     }
-
-    ccColor3B getColorValue(int, int, float) {
-        return {255, 255, 255};
-    }
 };
