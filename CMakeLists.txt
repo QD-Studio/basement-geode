@@ -22,9 +22,11 @@ endif()
 
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 add_subdirectory(external/utfcpp)
+add_subdirectory(external/zydis)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     "external/utfcpp/source"
 )
 
 setup_geode_mod(${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME} Zydis)
