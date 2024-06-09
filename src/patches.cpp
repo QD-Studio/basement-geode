@@ -144,17 +144,13 @@ $execute {
     // Убираем кнопку "Original" в описании уровня
     // Mod::get()->patch((void*)(base::get() + 0x1500AE), {0xE9, 0x01, 0x01, 0x00, 0x00, 0x90}); // Original button
 
-    // patchStrNew((void*)(base::get() + 0x3151D5), "Hello world!!!!!!!!!!!!");
-    // log::debug("===========================");
-    // patchStrNew((void*)(base::get() + 0x3521EC), "Привет, <cl>GDL</c>! Это тест <cr>строки</c> с <cy>цветами</c> в GD <cp>2.206</c>! Очень очень очень очень очень очень очень очень длинный текст.");
-
     // Делаем текстурки в главном меню снежными, если сейчас зима
     if(basementutils::isWinterNow() && Mod::get()->getSettingValue<bool>("basement-resources")) {
-        basementutils::patchString(base::get() + 0x313317, "GJ_logo_002.png");
-        basementutils::patchString(base::get() + 0x313397, "GJ_playBtn_002.png");
-        basementutils::patchString(base::get() + 0x313415, "GJ_garageBtn_002.png");
-        basementutils::patchString(base::get() + 0x313555, "GJ_creatorBtn_002.png");
-        basementutils::patchString(base::get() + 0x313BE0, "GJ_moreGamesBtn_002.png");
+        patchStrNew((void*)(base::get() + 0x313315), "GJ_logo_002.png");
+        patchStrNew((void*)(base::get() + 0x313395), "GJ_playBtn_002.png");
+        patchStrNew((void*)(base::get() + 0x313413), "GJ_garageBtn_002.png");
+        patchStrNew((void*)(base::get() + 0x313553), "GJ_creatorBtn_002.png");
+        patchStrNew((void*)(base::get() + 0x313BDE), "GJ_moreGamesBtn_002.png");
     }
 
     // Меняем название окна

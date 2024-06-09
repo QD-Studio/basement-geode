@@ -5,6 +5,7 @@
 #include <Geode/modify/GameManager.hpp>
 #include <Geode/modify/AccountLoginLayer.hpp>
 #include <Geode/modify/GJAccountManager.hpp>
+#include <Geode/modify/CCHttpClient.hpp>
 #include "utils.hpp"
 
 using namespace geode::prelude;
@@ -61,44 +62,33 @@ class $modify(AccountLoginLayer) {
 };
 
 // Меняем URL сервера в рантайме
-void sendRequest_hk(CCHttpClient* self, CCHttpRequest* request) {
-    std::string newURL = request->getUrl();
-    std::string body(request->getRequestData(), request->getRequestDataSize());
+class $modify(CCHttpClient) {
+    void send(CCHttpRequest* request) {
+        std::string newURL = request->getUrl();
+        std::string body(request->getRequestData(), request->getRequestDataSize());
+            
+        auto it = newURL.find("https://www.boomlings.com/database");
+        if(it != std::string::npos){
+            newURL.replace(it, 34, basementutils::getServerURL(true));
+        }
+
+        request->setUrl(newURL.c_str());
         
-    auto it = newURL.find("https://www.boomlings.com/database");
-    if(it != std::string::npos){
-        newURL.replace(it, 34, basementutils::getServerURL(true));
+        // log::info("curl {} -d \"{}\" -A \"\"", newURL, body);
+
+        if(newURL.find("loginGJAccount.php") != std::string::npos && !s_password.empty()) {
+            auto shapassword = GJAccountManager::get()->getShaPassword(s_password); 
+            auto it = body.find(shapassword);
+            body.replace(it, shapassword.capacity() - 1, s_password);
+
+            request->setRequestData(body.c_str(), body.size());
+        }
+        
+        return CCHttpClient::send(request);
     }
-
-    request->setUrl(newURL.c_str());
-    
-    log::info("curl {} -d \"{}\" -A \"\"", newURL, body);
-
-    if(newURL.find("loginGJAccount.php") != std::string::npos && !s_password.empty()) {
-        auto shapassword = GJAccountManager::get()->getShaPassword(s_password); 
-        auto it = body.find(shapassword);
-        body.replace(it, shapassword.capacity() - 1, s_password);
-
-        request->setRequestData(body.c_str(), body.size());
-    }
-    
-    return self->send(request);
-}
+};
 
 $execute {
-    // Хук для подмены URL сервера в рантайме
-#if defined(GEODE_IS_WINDOWS)
-    Mod::get()->hook(
-        reinterpret_cast<void*>(GetProcAddress(GetModuleHandleA("libExtensions.dll"), "?send@CCHttpClient@extension@cocos2d@@QEAAXPEAVCCHttpRequest@23@@Z")), 
-        &sendRequest_hk, "cocos2d::extension::CCHttpClient::send", tulip::hook::TulipConvention::Thiscall
-    );
-#elif defined(GEODE_IS_ANDROID)
-        Mod::get()->hook(
-        reinterpret_cast<void*>(dlsym(dlopen("libcocos2dcpp.so", RLTD_LAZY), "_ZN7cocos2d9extension12CCHttpClient4sendEPNS0_13CCHttpRequestE")), 
-        &sendRequest_hk, "cocos2d::extension::CCHttpClient::send", tulip::hook::TulipConvention::Default
-    );
-#endif
-    
     listenForSettingChanges("basement-server", +[](std::string value) {
         shouldSwitchInstance = true;
         GameManager::sharedState()->save();
