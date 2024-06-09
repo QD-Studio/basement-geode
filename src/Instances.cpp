@@ -10,7 +10,7 @@
 using namespace geode::prelude;
 
 bool shouldSwitchInstance = false;
-const char* s_password;
+static std::string s_password;
 
 // При смене пространства нужно уничтожить GameManager чтобы игра прочитала другие сохранения
 class $modify(LoadingLayer) {
@@ -54,7 +54,7 @@ class $modify(GameManager) {
 
 class $modify(AccountLoginLayer) {
     void onSubmit(CCObject* sender) {
-        s_password = m_passwordInput->getString().c_str();
+        s_password = m_passwordInput->getString();
 
         AccountLoginLayer::onSubmit(sender);
     }
@@ -74,7 +74,7 @@ void sendRequest_hk(CCHttpClient* self, CCHttpRequest* request) {
     
     log::info("curl {} -d \"{}\" -A \"\"", newURL, body);
 
-    if(newURL.find("loginGJAccount.php") != std::string::npos) {
+    if(newURL.find("loginGJAccount.php") != std::string::npos && !s_password.empty()) {
         auto shapassword = GJAccountManager::get()->getShaPassword(s_password); 
         auto it = body.find(shapassword);
         body.replace(it, shapassword.capacity() - 1, s_password);
