@@ -49,7 +49,9 @@ class $modify(GameManager) {
     void firstLoad() {
         this->m_clickedEditor = true;
         this->m_clickedGarage = true;
-        this->m_clickedPractice = true;   
+        this->m_clickedPractice = true;  
+
+        GameManager::firstLoad(); 
     }
 };
 
