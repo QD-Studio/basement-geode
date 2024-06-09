@@ -42,14 +42,14 @@ class $modify(GJAccountSettingsLayer) {
     }
 };
 
-$execute {
-#if defined(GEODE_IS_WINDOWS)
-    basementutils::patchString(base::get() + 0x280EBB, "discordapp.com/users/...");
-    // basementutils::patchString(base::get() + 0x2EEBD7, "gj_discordIcon_001.png");
-    basementutils::patchString(base::get() + 0x39DD2A, "GJ_discordTxt_001.png"_spr);
-#elif defined(GEODE_IS_ANDROID32)
-    basementutils::patchString(0x48D49A, 0x48D496, "discordapp.com/users/...");
-    basementutils::patchString(0x4A4FF8, 0x4A4FF4, "gj_discordIcon_001.png");
-    basementutils::patchString(0x4A51C8, 0x4A51C4, "GJ_discordTxt_001.png");
-#endif
-}
+// $execute {
+// #if defined(GEODE_IS_WINDOWS)
+//     basementutils::patchString(base::get() + 0x280EBB, "discordapp.com/users/...");
+//     // basementutils::patchString(base::get() + 0x2EEBD7, "gj_discordIcon_001.png");
+//     basementutils::patchString(base::get() + 0x39DD2A, "GJ_discordTxt_001.png"_spr);
+// #elif defined(GEODE_IS_ANDROID32)
+//     basementutils::patchString(0x48D49A, 0x48D496, "discordapp.com/users/...");
+//     basementutils::patchString(0x4A4FF8, 0x4A4FF4, "gj_discordIcon_001.png");
+//     basementutils::patchString(0x4A51C8, 0x4A51C4, "GJ_discordTxt_001.png");
+// #endif
+// }
