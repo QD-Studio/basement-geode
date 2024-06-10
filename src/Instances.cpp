@@ -79,11 +79,9 @@ class $modify(CCHttpClient) {
         // log::info("curl {} -d \"{}\" -A \"\"", newURL, body);
 
         if(newURL.find("loginGJAccount.php") != std::string::npos && !s_password.empty()) {
-            auto shapassword = GJAccountManager::get()->getShaPassword(s_password); 
-            auto it = body.find(shapassword);
-            body.replace(it, shapassword.capacity() - 1, s_password);
-
+            body.replace(body.find("gjp2=") + 5, 40, s_password); // replace gjp with password
             request->setRequestData(body.c_str(), body.size());
+            s_password.clear();
         }
         
         return CCHttpClient::send(request);
