@@ -3,7 +3,10 @@
 #if defined(GEODE_IS_WINDOWS)
 
 void basementutils::patchString(uintptr_t const absAddress, char const* str) {
-    Mod::get()->patch((void*)absAddress, ByteVector {(uint8_t*)&str, (uint8_t*)&str + 4});
+    auto result = Mod::get()->patch((void*)absAddress, ByteVector {(uint8_t*)&str, (uint8_t*)&str + 4});
+    if(result.isErr()) {
+        log::error("Failed to patch string 0x{:X}", absAddress);
+    }
 }
 
 std::string basementutils::cp1251_to_utf8(const char *str){
