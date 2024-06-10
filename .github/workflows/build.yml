@@ -20,10 +20,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
         with:
+          bindings: QD-Studio/geode-bindings
+          bindings-ref: main
           sdk: 'v3.0.0-alpha.2'
           cli: 'v3.0.0-beta.1'
           combine: true
