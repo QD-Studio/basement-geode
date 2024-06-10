@@ -4,9 +4,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_OSX_ARCHITECTURES "x86_64")
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
-set(GEODE_TARGET_PLATFORM Win32)
-
-project(BasementGeode VERSION 1.6.3)
+project(BasementGeode VERSION 1.6.4)
 
 file(GLOB SOURCES
 	src/*.cpp
@@ -22,11 +20,9 @@ endif()
 
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 add_subdirectory(external/utfcpp)
-add_subdirectory(external/zydis)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     "external/utfcpp/source"
 )
 
 setup_geode_mod(${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME} Zydis)

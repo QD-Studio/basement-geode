@@ -11,7 +11,7 @@ struct Version {
     uint16_t revision;
 };
 
-const inline Version ver = {1, 6, 3};
+const inline Version ver = {1, 6, 4};
 
 namespace basementutils {
 #ifdef GEODE_IS_WINDOWS
