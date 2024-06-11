@@ -23,6 +23,7 @@ namespace basementutils {
 
     const std::string getVersion();
     const std::string getQualityString(std::string filename);
+    std::string pathWithQuality(const std::filesystem::path& path);
     void getUnicodeChar(unsigned int code, char chars[5]);
 
     void reloadAll();

@@ -5,7 +5,7 @@
 void basementutils::patchString(uintptr_t const absAddress, char const* str) {
     auto result = Mod::get()->patch((void*)absAddress, ByteVector {(uint8_t*)&str, (uint8_t*)&str + 4});
     if(result.isErr()) {
-        log::error("Failed to patch string 0x{:X}", absAddress);
+        log::error("Failed to patch string at 0x{:X}", absAddress);
     }
 }
 
@@ -69,6 +69,24 @@ std::string const basementutils::getQualityString(std::string filename) {
     }
 
     return filename;
+}
+
+std::string basementutils::pathWithQuality(const std::filesystem::path& path) {
+    auto quality = CCDirector::get()->getLoadedTextureQuality();
+
+    auto str = (path.parent_path() / path.stem()).string();
+    auto ext = path.extension().string();
+    if(str.find("-uhd") != std::string::npos) str.erase(str.find("-uhd"), 4);
+    if(str.find("-hd") != std::string::npos) str.erase(str.find("-hd"), 3);
+
+    switch (quality) {
+        case TextureQuality::kTextureQualityMedium:
+            return str + "-hd" + ext;
+        case TextureQuality::kTextureQualityHigh:
+            return str + "-uhd" + ext;
+        default:
+            return path.string();
+    }
 }
 
 void basementutils::getUnicodeChar(unsigned int code, char chars[5]) {

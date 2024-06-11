@@ -6,6 +6,8 @@
 
 using namespace geode::prelude;
 
+#ifdef GEODE_IS_WINDOWS
+
 class $modify(CCIMEDispatcher){
     void dispatchInsertText(const char* text, int len, cocos2d::enumKeyCodes idk) {
         // log::info("DIT {} {} {}", text, len, (int)idk);
@@ -45,6 +47,8 @@ class $modify(CCIMEDispatcher){
         CCIMEDispatcher::dispatchInsertText(p1.c_str(), len, idk);
     }
 };
+
+#endif
 
 class $modify(CCTextInputNode) {
     virtual bool onTextFieldInsertText(cocos2d::CCTextFieldTTF* pSender, char const* text, int nLen, cocos2d::enumKeyCodes keyCodes) {
