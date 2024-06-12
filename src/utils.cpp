@@ -44,33 +44,6 @@ void basementutils::patchString(uintptr_t const dcd, uintptr_t const add, char c
 
 #endif
 
-std::string const basementutils::getVersion() {
-    return fmt::format("{}.{}.{}", ver.major, ver.minor, ver.revision);
-}
-
-std::string const basementutils::getQualityString(std::string filename) {
-    if(filename.find("-uhd") != std::string::npos) filename.erase(filename.find("-uhd"), 4);
-    if(filename.find("-hd") != std::string::npos) filename.erase(filename.find("-hd"), 3);
-
-    std::string extension = std::filesystem::path(filename).extension().string();
-    auto quality = CCDirector::get()->getLoadedTextureQuality();
-
-    switch (quality){
-        case TextureQuality::kTextureQualityLow:
-            break;
-
-        case TextureQuality::kTextureQualityMedium:
-            filename.replace(filename.find(extension), std::string("-hd" + extension).length(), "-hd" + extension);
-            break;
-
-        case TextureQuality::kTextureQualityHigh:
-            filename.replace(filename.find(extension), std::string("-uhd" + extension).length(), "-uhd" + extension);
-            break;  
-    }
-
-    return filename;
-}
-
 std::string basementutils::pathWithQuality(const std::filesystem::path& path) {
     auto quality = CCDirector::get()->getLoadedTextureQuality();
 

@@ -14,9 +14,9 @@ class $modify(AFKMode, MenuLayer) {
         auto winSize = CCDirector::sharedDirector()->getWinSize();
 
         if(sprite) {
-            float f = winSize.height / sprite->getContentSize().height;
-            sprite->setScaleY(f);
-            sprite->setScaleX(sprite->getScaleX() * f);
+            float f = winSize.width / sprite->getContentSize().width;
+            sprite->setScaleY(sprite->getScaleY() * f);
+            sprite->setScaleX(f);
             sprite->setPositionX(winSize.width / 2);
             sprite->setPositionY(winSize.height / 2 + 45);
         }
@@ -65,7 +65,7 @@ class $modify(AFKMode, MenuLayer) {
         mainMenu->addChild(creditsBtn);
 
         // Это версия подвала
-        CCLabelBMFont* text = CCLabelBMFont::create(fmt::format("BasementGDPS {}-Geode", basementutils::getVersion()).c_str(), "goldFont.fnt");
+        CCLabelBMFont* text = CCLabelBMFont::create(fmt::format("BasementGDPS {}-Geode", Mod::get()->getVersion()).c_str(), "goldFont.fnt");
         text->setID("basement-version");
         this->addChild(text);
         text->setScale(0.5f);
