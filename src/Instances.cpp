@@ -27,7 +27,7 @@ class $modify(LoadingLayer) {
 };
 
 // Делаем раздельные сохранения
-class $modify(GManager){
+class $modify(GManager) {
     void setup(){
         std::string basementFilename(this->m_fileName);
         basementFilename.replace(0, 2, "BS"); // Brawl Stars
