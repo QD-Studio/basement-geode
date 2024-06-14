@@ -198,7 +198,7 @@ class $modify(MenuGameLayer) {
         auto menulayer = (AFKMode*)GameManager::sharedState()->m_menuLayer;
         if (menulayer && menulayer->m_fields->m_afkmode) {
             auto text = (CCLabelBMFont*)menulayer->getChildByID("icons-counter");
-            text->setString(std::format("Icons destroyed: {}", ++menulayer->m_fields->m_iconsDestroyed).c_str());
+            text->setString(fmt::format("Icons destroyed: {}", ++menulayer->m_fields->m_iconsDestroyed).c_str());
         }
 
         MenuGameLayer::destroyPlayer();
