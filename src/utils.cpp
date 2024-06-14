@@ -76,8 +76,8 @@ std::string basementutils::pathWithQuality(const std::filesystem::path& path) {
 
     auto str = (path.parent_path() / path.stem()).string();
     auto ext = path.extension().string();
-    if(str.find("-uhd") != std::string::npos) str.erase(str.find("-uhd"), 4);
-    if(str.find("-hd") != std::string::npos) str.erase(str.find("-hd"), 3);
+    if (auto p = str.find("-uhd"); p != std::string::npos) str.erase(p, 4);
+    if (auto p = str.find("-hd"); p != std::string::npos) str.erase(p, 3);
 
     switch (quality) {
         case TextureQuality::kTextureQualityMedium:
@@ -85,7 +85,7 @@ std::string basementutils::pathWithQuality(const std::filesystem::path& path) {
         case TextureQuality::kTextureQualityHigh:
             return str + "-uhd" + ext;
         default:
-            return path.string();
+            return str + ext;
     }
 }
 
