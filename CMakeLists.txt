@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_OSX_ARCHITECTURES "x86_64")
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
-project(BasementGeode VERSION 1.6.5)
+project(BasementGeode VERSION 1.6.6)
 
 file(GLOB SOURCES
 	src/*.cpp

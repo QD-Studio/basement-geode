@@ -59,7 +59,6 @@
 		],
 		"files": [
 			"resources/dicts/*.plist",
-			"resources/soundtracks/*.mp3",
 			"resources/spritesheets/*.plist"
 		],
 		"spritesheets": {
