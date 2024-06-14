@@ -37,41 +37,48 @@ class $modify(AFKMode, MenuLayer) {
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
 
+        constexpr auto startZ = 9999999;
+
         // afk mode setup
         auto mainMenuBg = (CCNode*)this->getChildByID("main-menu-bg");
         ((CCNode*)mainMenuBg->getChildren()->objectAtIndex(0))->setVisible(false); // original bg
-        mainMenuBg->setZOrder(9999999 + 1);
+        mainMenuBg->setZOrder(startZ + 1);
         mainMenuBg->setVisible(false);
 
         addChild(createBG("basement-bg-1"), -99999); // bg under menu
-        auto bg2 = createBG("basement-bg-2"); bg2->setOpacity(0); addChild(bg2, 9999999); // bg under mgl (above menu)
-        auto bg3 = createBG("basement-bg-3"); bg3->setOpacity(0); addChild(bg3, 9999999 + 2); // bg above mgl
+        auto bg2 = createBG("basement-bg-2"); bg2->setOpacity(0); addChild(bg2, startZ); // bg under mgl (above menu)
+        auto bg3 = createBG("basement-bg-3"); bg3->setOpacity(0); addChild(bg3, startZ + 2); // bg above mgl
 
         auto iconsCounter = CCLabelBMFont::create("Icons destroyed: 0", "bigFont.fnt");
         iconsCounter->setPosition({winSize.width / 2, winSize.height - 30});
         iconsCounter->setOpacity(0);
         iconsCounter->setScale(0.5);
         iconsCounter->setID("icons-counter");
-        iconsCounter->setZOrder(9999999 + 1);
+        iconsCounter->setZOrder(startZ + 1);
         addChild(iconsCounter);
 
-        ((CCMenu*)getChildByID("close-menu"))->setZOrder(9999999 + 3);
+        ((CCMenu*)getChildByID("close-menu"))->setZOrder(startZ + 3); // above everything
 
         // menu stuff
         auto mainMenu = (CCMenu*)this->getChildByID("main-menu");
 
         // Выравниваем кнопки для бг
-        if(Mod::get()->getSettingValue<bool>("basement-resources")){
+        if (Mod::get()->getSettingValue<bool>("basement-resources")) {
+            auto bgBottomY = (bg2->getPositionY() - bg2->getScaledContentHeight() / 2.0f);
+            auto posY = bgBottomY + 0.3f * bg2->getScaledContentHeight();
+            auto localPosY = mainMenu->convertToNodeSpace({0.0f, posY}).y;
+            
             auto playbtn = mainMenu->getChildByID("play-button");
-            playbtn->setPositionY(-2);
+            playbtn->setAnchorPoint({0.5f, 0.35f});
+            playbtn->setPositionY(localPosY);
             
             auto editorbtn = mainMenu->getChildByID("editor-button");
-            editorbtn->setAnchorPoint({0.25f, 0.5f});
-            editorbtn->setPosition({playbtn->getPositionX() + 82, -4});
+            editorbtn->setAnchorPoint({0.25f, 0.35f});
+            editorbtn->setPosition({playbtn->getPositionX() + 82, localPosY});
 
             auto iconkit = mainMenu->getChildByID("icon-kit-button");
-            iconkit->setAnchorPoint({0.75f, 0.5f});
-            iconkit->setPosition({playbtn->getPositionX() - 82, -4});
+            iconkit->setAnchorPoint({0.75f, 0.35f});
+            iconkit->setPosition({playbtn->getPositionX() - 82, localPosY});
         }
 
         // Кнопка кредитсов
