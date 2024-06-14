@@ -59,7 +59,7 @@ bool CreditsLayer::init() {
     textBasementDevs->setPosition({winSize.width / 2, robtopLogo->getPositionY() - 60});
     layer->addChild(textBasementDevs);
 
-    auto qdstudioLogo = CCSprite::createWithSpriteFrameName("qdstudio.basementgdps/qdstudio.png");
+    auto qdstudioLogo = CCSprite::createWithSpriteFrameName("qdstudio.png"_spr);
     qdstudioLogo->setPosition({winSize.width / 2, textBasementDevs->getPositionY() - 40});
     layer->addChild(qdstudioLogo);
 

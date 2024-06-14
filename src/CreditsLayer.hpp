@@ -12,10 +12,10 @@ struct Developer {
 class CreditsLayer : public CCLayer {
   protected:
     std::vector<Developer> devs = {
-        {"qdstudio.basementgdps/kolyah35.png", "Kolyah35", "QD Studio head"},
-        {"qdstudio.basementgdps/bestrussiangdmodder.png", "Jaan", "Lead developer"},
-        {"qdstudio.basementgdps/bestartmaker.png", "danilka22ah", "Textures"},
-        {"qdstudio.basementgdps/demolena.png", "Demolena", "Marketing"}
+        {"kolyah35.png"_spr, "Kolyah35", "QD Studio head"},
+        {"bestrussiangdmodder.png"_spr, "Jaan", "Lead developer"},
+        {"bestartmaker.png"_spr, "danilka22ah", "Textures"},
+        {"demolena.png"_spr, "Demolena", "Marketing"}
     };
 
     std::vector<std::string> remixcredits = {"Dry Out by TheDJPony", "Cant let Go by RedForce Productions", "Clubstep by DJ-Nate",

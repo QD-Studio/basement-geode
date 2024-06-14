@@ -10,7 +10,7 @@ class $modify(AFKMode, MenuLayer) {
     };
 
     CCSprite* createBG() {
-        auto sprite = CCSprite::create("qdstudio.basementgdps/menubg.png");
+        auto sprite = CCSprite::create("menubg.png"_spr);
         auto winSize = CCDirector::sharedDirector()->getWinSize();
 
         if(sprite) {
@@ -93,10 +93,14 @@ class $modify(AFKMode, MenuLayer) {
         CCLabelBMFont* text = CCLabelBMFont::create(fmt::format("BasementGDPS {}-Geode", Mod::get()->getVersion()).c_str(), "goldFont.fnt");
         text->setID("basement-version");
         text->setScale(0.5f);
-        text->setPosition({winSize.width, 0});
-        text->setAnchorPoint({1.0f, 0.0f});
+        text->setPosition({winSize.width / 2.0f, 0});
+        text->setAnchorPoint({0.5f, 0.0f});
         text->setZOrder(99);
         addChild(text);
+
+        auto titletext = getChildByID("main-title");
+        titletext->setScale(1.2f);
+        titletext->setPositionY(titletext->getPositionY() - 10);
 
         // Если сейчас зима, то начинаем снежную вечеринку
         if(basementutils::isWinterNow()) {
@@ -104,7 +108,7 @@ class $modify(AFKMode, MenuLayer) {
 
             snow->setPosition({winSize.width / 2, winSize.height + 10});
             snow->setZOrder(100);
-            snow->setTexture(CCTextureCache::sharedTextureCache()->addImage("qdstudio.basementgdps/snow.png", false));
+            snow->setTexture(CCTextureCache::sharedTextureCache()->addImage("snow.png"_spr, false));
             this->addChild(snow);
 
             auto title = (CCSprite*)this->getChildByID("main-title");
@@ -114,24 +118,24 @@ class $modify(AFKMode, MenuLayer) {
             CCLayer* snowlayer = CCLayer::create();
             snowlayer->setID("basement-snow-layer");
 
-            auto snow1 = CCSprite::createWithSpriteFrameName("qdstudio.basementgdps/snow_01.png");
+            auto snow1 = CCSprite::createWithSpriteFrameName("snow_01.png"_spr);
             snow1->setPosition({ 508, 11 });
             snow1->setScale(0.175);
 
-            auto snow2 = CCSprite::createWithSpriteFrameName("qdstudio.basementgdps/snow_01.png");
+            auto snow2 = CCSprite::createWithSpriteFrameName("snow_01.png"_spr);
             snow2->setPosition({ 236, 0 });
             snow2->setScale(0.350);
 
-            auto snow3 = CCSprite::createWithSpriteFrameName("qdstudio.basementgdps/snow_01.png");
+            auto snow3 = CCSprite::createWithSpriteFrameName("snow_01.png"_spr);
             snow3->setPosition({ 80, 0 });
             snow3->setScale(0.350);
 
-            auto snow4 = CCSprite::createWithSpriteFrameName("qdstudio.basementgdps/snow_01.png");
+            auto snow4 = CCSprite::createWithSpriteFrameName("snow_01.png"_spr);
             snow4->setPosition({ 388, 3 });
             snow4->setScale(0.300);
             snow4->setZOrder(1);
 
-            auto snoww1 = CCSprite::createWithSpriteFrameName("qdstudio.basementgdps/snow_02.png");
+            auto snoww1 = CCSprite::createWithSpriteFrameName("snow_02.png"_spr);
             snoww1->setPosition({325, 0});
             snoww1->setAnchorPoint({ 0.5, 0 });
             snoww1->setScale(0.175);
