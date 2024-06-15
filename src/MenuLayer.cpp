@@ -44,6 +44,7 @@ class $modify(AFKMode, MenuLayer) {
         ((CCNode*)mainMenuBg->getChildren()->objectAtIndex(0))->setVisible(false); // original bg
         mainMenuBg->setZOrder(startZ + 1);
         mainMenuBg->setVisible(false);
+        log::debug("test 0");
 
         addChild(createBG("basement-bg-1"), -99999); // bg under menu
         auto bg2 = createBG("basement-bg-2"); bg2->setOpacity(0); addChild(bg2, startZ); // bg under mgl (above menu)
@@ -57,7 +58,9 @@ class $modify(AFKMode, MenuLayer) {
         iconsCounter->setZOrder(startZ + 1);
         addChild(iconsCounter);
 
+#ifndef GEODE_IS_ANDROID
         ((CCMenu*)getChildByID("close-menu"))->setZOrder(startZ + 3); // above everything
+#endif
 
         // menu stuff
         auto mainMenu = (CCMenu*)this->getChildByID("main-menu");
@@ -170,7 +173,9 @@ class $modify(AFKMode, MenuLayer) {
             }
         }
 
+#ifndef GEODE_IS_ANDROID
         ((CCMenu*)getChildByID("close-menu"))->setEnabled(true);
+#endif
 
         getChildByID("icons-counter")->runAction(CCSequence::create(CCDelayTime::create(0.5f), CCFadeIn::create(0.5f), nullptr));
     }
