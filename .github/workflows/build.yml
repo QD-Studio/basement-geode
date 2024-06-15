@@ -36,7 +36,7 @@ jobs:
         with:
           bindings: QD-Studio/geode-bindings
           bindings-ref: main
-          sdk: 'v3.0.0-alpha.2'
+          sdk: 'v3.0.0-beta.1'
           cli: 'v3.0.0-beta.1'
           combine: true
           target: ${{ matrix.config.target }}
