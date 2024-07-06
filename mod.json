@@ -1,5 +1,5 @@
 {
-	"geode": "3.0.0-beta.1",
+	"geode": "3.0.0",
 	"version": "v1.6.6",
 	"gd": {
 		"win": "2.206",
@@ -59,12 +59,21 @@
 		],
 		"files": [
 			"resources/dicts/*.plist",
-			"resources/spritesheets/*.plist"
+			"resources/spritesheets/*.plist",
+			"resources/loc/*.json"
 		],
 		"spritesheets": {
 			"BasementTextures": [
 				"resources/spritesheets/BasementTextures/*.png"
 			]
 		}
-	}
+	},
+
+	"dependencies": [
+		{
+			"id": "gdlteam.gdl",
+			"importance": "required",
+			"version": ">=2.0.0"
+		}
+	]
 }

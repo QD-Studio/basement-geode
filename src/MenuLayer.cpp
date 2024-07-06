@@ -2,6 +2,7 @@
 #include "utils.hpp"
 #include <Geode/modify/MenuLayer.hpp>
 #include <Geode/modify/MenuGameLayer.hpp>
+#include <gdlteam.gdl/api/api.hpp>
 
 class $modify(AFKMode, MenuLayer) {
     struct Fields {
@@ -214,7 +215,7 @@ class $modify(MenuGameLayer) {
         auto menulayer = (AFKMode*)GameManager::sharedState()->m_menuLayer;
         if (menulayer && menulayer->m_fields->m_afkmode) {
             auto text = (CCLabelBMFont*)menulayer->getChildByID("icons-counter");
-            text->setString(fmt::format("Icons destroyed: {}", ++menulayer->m_fields->m_iconsDestroyed).c_str());
+            text->setString(fmt::format("{}: {}", "icons-destroyed"_gdl, ++menulayer->m_fields->m_iconsDestroyed).c_str());
         }
 
         MenuGameLayer::destroyPlayer();

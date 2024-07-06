@@ -18,8 +18,8 @@ $execute {
     // }
 
     // Меняем название окна
-    // basementutils::patchString(base::get() + 0x5B198, "Подвал ГДшеров");
-    // basementutils::patchString(base::get() + 0x5B224, "Подвал ГДшеров");
+    // basementutils::patchString(base::get() + 0x5B198, "basementgdps"_gdl);
+    // basementutils::patchString(base::get() + 0x5B224, "basementgdps"_gdl);
 
     // Пропускаем инициализацию SteamAPI_Init, чтобы не выдавались достижения, полученные в подвале
     auto result = Mod::get()->patch((void*)(base::get() + 0x4A2C8B), {0xE9, 0x42, 0x00, 0x00, 0x00}); // jmp loc_1404A2D1A

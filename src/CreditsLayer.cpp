@@ -46,7 +46,7 @@ bool CreditsLayer::init() {
     layer->addChild(logo);
 
     // Оригинальный разработчик игры    
-    auto textOriginalDev = CCLabelBMFont::create("Geometry Dash developer:", "bigFont.fnt");
+    auto textOriginalDev = CCLabelBMFont::create("geomentry-dash-developer"_gdl, "bigFont.fnt");
     textOriginalDev->setPosition({winSize.width / 2, logo->getPositionY() - 80});
     layer->addChild(textOriginalDev);
 
@@ -55,7 +55,7 @@ bool CreditsLayer::init() {
     layer->addChild(robtopLogo);
 
     // Команда Подвал ГДшеров
-    auto textBasementDevs = CCLabelBMFont::create("BasementGDPS team:", "bigFont.fnt");
+    auto textBasementDevs = CCLabelBMFont::create("basementgdps-team"_gdl, "bigFont.fnt");
     textBasementDevs->setPosition({winSize.width / 2, robtopLogo->getPositionY() - 60});
     layer->addChild(textBasementDevs);
 
@@ -88,7 +88,7 @@ bool CreditsLayer::init() {
     }
 
     // Авторы музыкальных ремиксов
-    auto textRemixCredits = CCLabelBMFont::create("Authors of the song remixes:", "bigFont.fnt");
+    auto textRemixCredits = CCLabelBMFont::create("authors-of-soundtracks"_gdl, "bigFont.fnt");
     textRemixCredits->setPosition({winSize.width / 2, qdstudioLogo->getPositionY() - 60 - (50 * this->devs.size()) - 60});
     layer->addChild(textRemixCredits);
 
@@ -99,8 +99,7 @@ bool CreditsLayer::init() {
     }
 
     // Благодарность игроку
-    auto thankyou = CCLabelBMFont::create(
-        "Special thanks to YOU for playing on\n our private server, we really appreciate it =)", "bigFont.fnt");
+    auto thankyou = CCLabelBMFont::create("gratitude-to-player"_gdl, "bigFont.fnt");
     thankyou->setPosition({winSize.width / 2, qdstudioLogo->getPositionY() - 60 - (50 * this->devs.size()) - (winSize.width / 2)});
     thankyou->setScale(0.4f);
     thankyou->setAlignment(CCTextAlignment::kCCTextAlignmentCenter);

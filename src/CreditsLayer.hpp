@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "utils.hpp"
+#include <gdlteam.gdl/api/api.hpp>
 
 struct Developer {
     std::string sprite;
@@ -12,10 +13,10 @@ struct Developer {
 class CreditsLayer : public CCLayer {
   protected:
     std::vector<Developer> devs = {
-        {"kolyah35.png"_spr, "Kolyah35", "QD Studio head"},
-        {"bestrussiangdmodder.png"_spr, "Jaan", "Lead developer"},
-        {"bestartmaker.png"_spr, "danilka22ah", "Textures"},
-        {"demolena.png"_spr, "Demolena", "Marketing"}
+        {"kolyah35.png"_spr, "Kolyah35", "qd-studio-head"_gdl},
+        {"bestrussiangdmodder.png"_spr, "Jaan", "lead-developer"_gdl},
+        {"bestartmaker.png"_spr, "danilka22ah", "textures"_gdl},
+        {"demolena.png"_spr, "Demolena", "marketing"_gdl}
     };
 
     std::vector<std::string> remixcredits = {"Dry Out by TheDJPony", "Cant let Go by RedForce Productions", "Clubstep by DJ-Nate",

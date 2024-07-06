@@ -68,17 +68,17 @@ $execute {
 
     // patchMusic(Mod::get()->getSettingValue<bool>("basement-music"));
 
-// #if defined(GEODE_IS_WINDOWS)
-//     auto result = Mod::get()->hook(
-//         reinterpret_cast<void*>(GetProcAddress(GetModuleHandleA("libcocos2d.dll"), "?addDict@CCContentManager@@QEAAPEAVCCDictionary@cocos2d@@PEBD_N@Z")), 
-//         &addDict_hk, "cocos2d::CCContentManager::addDict", tulip::hook::TulipConvention::Thiscall
-//     );
-// #elif defined(GEODE_IS_ANDROID)
-//     auto result = Mod::get()->hook(
-//         reinterpret_cast<void*>(dlsym(dlopen("libcocos2dcpp.so", RTLD_LAZY), "_ZN16CCContentManager7addDictEPKcb")), 
-//         &addDict_hk, "cocos2d::CCContentManager::addDict", tulip::hook::TulipConvention::Default
-//     );
-// #endif
+#if defined(GEODE_IS_WINDOWS)
+    auto result = Mod::get()->hook(
+        reinterpret_cast<void*>(GetProcAddress(GetModuleHandleA("libcocos2d.dll"), "?addDict@CCContentManager@@QEAAPEAVCCDictionary@cocos2d@@PEBD_N@Z")), 
+        &addDict_hk, "cocos2d::CCContentManager::addDict", tulip::hook::TulipConvention::Thiscall
+    );
+#elif defined(GEODE_IS_ANDROID)
+    auto result = Mod::get()->hook(
+        reinterpret_cast<void*>(dlsym(dlopen("libcocos2dcpp.so", RTLD_LAZY), "_ZN16CCContentManager7addDictEPKcb")), 
+        &addDict_hk, "cocos2d::CCContentManager::addDict", tulip::hook::TulipConvention::Default
+    );
+#endif
 
 //     if(result.isErr()) {
 //         log::error("Can't hook {}. {}", result.value()->getDisplayName(), result.err());    

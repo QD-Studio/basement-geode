@@ -1,5 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/CreatorLayer.hpp>
+#include <gdlteam.gdl/api/api.hpp>
 
 using namespace geode::prelude;
 
@@ -7,7 +8,7 @@ using namespace geode::prelude;
 
 class $modify(Warning, CreatorLayer) {
     void showWarning() {
-        auto alert = FLAlertLayer::create("Error", "Not available.", "OK");
+        auto alert = FLAlertLayer::create("error"_gdl, "not-available"_gdl, "OK");
         alert->show();
     }
 
