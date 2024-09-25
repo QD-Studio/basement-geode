@@ -6,7 +6,7 @@
 
 struct Developer {
     std::string sprite;
-    std::string nick;
+    std::string name;
     std::string role;
 };
 

@@ -69,21 +69,21 @@ bool CreditsLayer::init() {
 
     for(size_t i = 0; i < this->devs.size(); i++) {
         auto developer = CCSprite::createWithSpriteFrameName(this->devs[i].sprite.c_str());
-        auto textDeveloper = CCLabelBMFont::create(this->devs[i].nick.c_str(), "goldFont.fnt");
-        auto textDeveloper1 = CCLabelBMFont::create(this->devs[i].role.c_str(), "bigFont.fnt");
+        auto developerName = CCLabelBMFont::create(this->devs[i].name.c_str(), "goldFont.fnt");
+        auto developerRole = CCLabelBMFont::create(this->devs[i].role.c_str(), "bigFont.fnt");
         developer->setPosition({(winSize.width / 2) - 100, qdstudioLogo->getPositionY() - 70 - (50 * i)});
         developer->setAnchorPoint({0.5f, 0.8f});
 
-        textDeveloper->setPosition({developer->getPositionX() + 40, developer->getPositionY()});
-        textDeveloper->setAnchorPoint({0.0f, 0.5f});
+        developerName->setPosition({developer->getPositionX() + 40, developer->getPositionY()});
+        developerName->setAnchorPoint({0.0f, 0.5f});
 
-        textDeveloper1->setPosition({textDeveloper->getPositionX(), textDeveloper->getPositionY() - 20});
-        textDeveloper1->setAnchorPoint({0.0f, 0.5f});
-        textDeveloper1->setScale(0.5f);
+        developerRole->setPosition({developerName->getPositionX(), developerName->getPositionY() - 20});
+        developerRole->setAnchorPoint({0.0f, 0.5f});
+        developerRole->setScale(0.5f);
 
         layer->addChild(developer);
-        layer->addChild(textDeveloper);
-        layer->addChild(textDeveloper1);
+        layer->addChild(developerName);
+        layer->addChild(developerRole);
 
     }
 
