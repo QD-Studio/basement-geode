@@ -8,11 +8,8 @@
 * AFK режим в главном меню
 
 ## Скриншоты
-<img src="./resources/screenshots/image0.png" width="30%">
-<img src="./resources/screenshots/image1.png" width="30%">
-<img src="./resources/screenshots/image2.png" width="30%">
-<img src="./resources/screenshots/image3.png" width="30%">
-<img src="./resources/screenshots/image4.png" width="30%">
+<img src="./resources/screenshots/image0.png" width="30%"> <img src="./resources/screenshots/image1.png" width="30%"> <img src="./resources/screenshots/image2.png" width="30%">
+<img src="./resources/screenshots/image3.png" width="30%"> <img src="./resources/screenshots/image4.png" width="30%">
 
 ## Зависимости
 Мод использует [GDL API](https://github.com/gdlocalisation/gdl-geode) для мультиязычности.
