@@ -34,7 +34,7 @@
 * [nasstyles](https://discord.com/users/1033488998208909373) - Помощник
 * [zobhhh](https://discord.com/users/848305386305355857) - Просто хороший человек
 * [Partur](https://discord.com/users/497770123604525057) - Помощь с кодом
-* [sleepyut](https://discord.com/users/463213709637058560) - Помошь с кодом
+* [sleepyut](https://discord.com/users/463213709637058560) - Помощь с кодом
 * [\> sazix](https://discord.com/users/814171134207459328) - Помощь с разработкой серверной части
 * [hreno](https://discord.com/users/896293425526210580) - Реформа модерации
 * [qqeeaa](https://discord.com/users/1094284995876630568) - Великолепные идеи

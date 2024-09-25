@@ -1,6 +1,5 @@
 #include <Geode/Geode.hpp>
 #include <Geode/loader/SettingEvent.hpp>
-#include "ModBadge.hpp"
 #include "utils.hpp"
 #include <gdlteam.gdl/api/api.hpp>
 
